@@ -1,0 +1,34 @@
+<lint-module
+    format="1"
+    dir="/Users/daniel/.pub-cache/hosted/pub.dev/webview_flutter_android-3.9.2/android"
+    name=":webview_flutter_android"
+    type="LIBRARY"
+    maven="io.flutter.plugins.webviewflutter:webview_flutter_android:"
+    gradle="7.3.0"
+    buildFolder="/Users/daniel/Documents/Transfer App/transfer_app/build/webview_flutter_android"
+    bootClassPath="/Users/daniel/Library/Android/sdk/platforms/android-33/android.jar:/Users/daniel/Library/Android/sdk/build-tools/30.0.3/core-lambda-stubs.jar"
+    javaSourceLevel="1.8"
+    compileTarget="android-33"
+    neverShrinking="true">
+  <lintOptions
+      disable="AndroidGradlePluginVersion,InvalidPackage,GradleDependency"
+      abortOnError="true"
+      absolutePaths="true"
+      checkAllWarnings="true"
+      warningsAsErrors="true"
+      checkReleaseBuilds="true"
+      explainIssues="true">
+    <severities>
+      <severity
+        id="AndroidGradlePluginVersion"
+        severity="IGNORE" />
+      <severity
+        id="GradleDependency"
+        severity="IGNORE" />
+      <severity
+        id="InvalidPackage"
+        severity="IGNORE" />
+    </severities>
+  </lintOptions>
+  <variant name="debug"/>
+</lint-module>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.flutter.plugins.webviewflutter.WebSettingsTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2023-08-01T18:37:15" hostname="Thomas-MBP.local" time="0.044">
+  <properties/>
+  <testcase name="setUseWideViewPort" classname="io.flutter.plugins.webviewflutter.WebSettingsTest" time="0.038"/>
+  <testcase name="setJavaScriptEnabled" classname="io.flutter.plugins.webviewflutter.WebSettingsTest" time="0.001"/>
+  <testcase name="setDomStorageEnabled" classname="io.flutter.plugins.webviewflutter.WebSettingsTest" time="0.0"/>
+  <testcase name="setUserAgentString" classname="io.flutter.plugins.webviewflutter.WebSettingsTest" time="0.001"/>
+  <testcase name="setDisplayZoomControls" classname="io.flutter.plugins.webviewflutter.WebSettingsTest" time="0.0"/>
+  <testcase name="setSupportZoom" classname="io.flutter.plugins.webviewflutter.WebSettingsTest" time="0.001"/>
+  <testcase name="setSupportMultipleWindows" classname="io.flutter.plugins.webviewflutter.WebSettingsTest" time="0.0"/>
+  <testcase name="setJavaScriptCanOpenWindowsAutomatically" classname="io.flutter.plugins.webviewflutter.WebSettingsTest" time="0.001"/>
+  <testcase name="setTextZoom" classname="io.flutter.plugins.webviewflutter.WebSettingsTest" time="0.001"/>
+  <testcase name="setBuiltInZoomControls" classname="io.flutter.plugins.webviewflutter.WebSettingsTest" time="0.0"/>
+  <testcase name="setMediaPlaybackRequiresUserGesture" classname="io.flutter.plugins.webviewflutter.WebSettingsTest" time="0.001"/>
+  <testcase name="setLoadWithOverviewMode" classname="io.flutter.plugins.webviewflutter.WebSettingsTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
