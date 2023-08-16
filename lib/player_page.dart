@@ -8,7 +8,7 @@ class PlayerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final playerData =
-        ModalRoute.of(context)!.settings.arguments as List<String>;
+        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
 
     final Future<List<TransferWidget>> futureTransferWidgets =
         TransferWidget.transferWidgetsFromJsonList(
@@ -61,7 +61,8 @@ class PlayerPage extends StatelessWidget {
                     //   borderRadius: BorderRadius.circular(20), //<-- SEE HERE
                     // ),
                     padding: EdgeInsets.only(right: 15, left: 10, bottom: 5),
-                    child: Image.network(playerData[1])),
+                    child: Image.network(playerData[1] ??
+                        "https://img.a.transfermarkt.technology/portrait/header/default.jpg?lm=1")),
                 Text(playerData[0],
                     style: const TextStyle(
                         fontSize: 15,

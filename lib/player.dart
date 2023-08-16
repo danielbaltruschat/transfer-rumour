@@ -3,7 +3,7 @@ import 'star_button.dart';
 
 class Player {
   final String playerName;
-  final String playerImage;
+  final String? playerImage;
   final int playerID;
   final String teamName;
   final String? teamImage;
@@ -82,7 +82,10 @@ class PlayerWidget extends StatelessWidget {
                 )),
             Center(
                 child: Column(children: [
-              Image.network(player.playerImage, height: 70),
+              Image.network(
+                  player.playerImage ??
+                      "https://img.a.transfermarkt.technology/portrait/header/default.jpg?lm=1",
+                  height: 70),
               Text(player.playerName),
             ]))
           ]),

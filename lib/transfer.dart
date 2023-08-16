@@ -7,9 +7,9 @@ class Transfer {
   final String rumouredTeam;
   final int transferID;
   final int timestamp;
-  final String playerImage;
+  final String? playerImage;
   final String? currentTeamImage;
-  final String rumouredTeamImage;
+  final String? rumouredTeamImage;
 
   const Transfer(
       {required this.player,
@@ -81,8 +81,9 @@ class TransferWidget extends StatelessWidget {
                                 child: Column(children: [
                                   Expanded(
                                       flex: 4,
-                                      child:
-                                          Image.network(transfer.playerImage)),
+                                      child: Image.network(transfer
+                                              .playerImage ??
+                                          "https://img.a.transfermarkt.technology/portrait/header/default.jpg?lm=1")),
                                   //Image.asset("assets/X.png")),
                                   Expanded(
                                       child: FittedBox(
@@ -109,8 +110,9 @@ class TransferWidget extends StatelessWidget {
                                 child: Column(children: [
                                   Expanded(
                                       flex: 4,
-                                      child: Image.network(
-                                          transfer.rumouredTeamImage)),
+                                      child: Image.network(transfer
+                                              .rumouredTeamImage ??
+                                          "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255")),
                                   Expanded(
                                       child: FittedBox(
                                           child: Text(transfer.rumouredTeam))),

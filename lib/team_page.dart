@@ -11,7 +11,7 @@ class TeamPage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
     final Future<List<TransferWidget>> futureTransferWidgets =
         TransferWidget.transferWidgetsFromJsonList(
-            QueryServer.getTransfersByTeamID(teamData[0]));
+            QueryServer.getTransfersByTeamID(teamData[2]));
     // final futureTransferWidgets = Future.value([
     //   const TransferWidget(
     //       transfer: Transfer(
@@ -59,7 +59,8 @@ class TeamPage extends StatelessWidget {
                     //   borderRadius: BorderRadius.circular(20), //<-- SEE HERE
                     // ),
                     padding: EdgeInsets.only(right: 15, left: 10, bottom: 5),
-                    child: Image.network(teamData[1])),
+                    child: Image.network(teamData[1] ??
+                        "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255")),
                 Text(teamData[0],
                     style: const TextStyle(
                         fontSize: 15,

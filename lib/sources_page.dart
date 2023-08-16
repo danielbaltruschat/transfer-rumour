@@ -371,8 +371,9 @@ class SourcesPage extends StatelessWidget {
                                 child: Column(children: [
                                   Expanded(
                                       flex: 4,
-                                      child:
-                                          Image.network(transfer.playerImage)),
+                                      child: Image.network(transfer
+                                              .playerImage ??
+                                          "https://img.a.transfermarkt.technology/portrait/header/default.jpg?lm=1")),
                                   Expanded(
                                       child: FittedBox(
                                           child: Text(transfer.player))),
@@ -398,8 +399,9 @@ class SourcesPage extends StatelessWidget {
                                 child: Column(children: [
                                   Expanded(
                                       flex: 4,
-                                      child: Image.network(
-                                          transfer.rumouredTeamImage)),
+                                      child: Image.network(transfer
+                                              .rumouredTeamImage ??
+                                          "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255")),
                                   Expanded(
                                       child: FittedBox(
                                           child: Text(transfer.rumouredTeam))),
