@@ -6,7 +6,7 @@ class Player {
   final String playerImage;
   final int playerID;
   final String teamName;
-  final String teamImage;
+  final String? teamImage;
 
   const Player(
       {required this.playerName,
@@ -20,8 +20,8 @@ class Player {
       playerName: json['player_name'],
       playerImage: json['player_image'],
       playerID: json['player_id'],
-      teamName: json['team_name'],
-      teamImage: json['team_logo'],
+      teamName: json['current_team_name'],
+      teamImage: json['current_team_logo'],
     );
   }
 }

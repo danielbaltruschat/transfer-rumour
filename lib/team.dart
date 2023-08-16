@@ -3,7 +3,7 @@ import 'star_button.dart';
 
 class Team {
   final String teamName;
-  final String teamImage;
+  final String? teamImage;
   final int teamID;
 
   const Team(
@@ -12,7 +12,7 @@ class Team {
   factory Team.fromJson(Map<String, dynamic> json) {
     return Team(
       teamName: json['team_name'],
-      teamImage: json['team_logo'],
+      teamImage: json['logo_image'],
       teamID: json['team_id'],
     );
   }
@@ -65,7 +65,10 @@ class TeamWidget extends StatelessWidget {
                 )),
             Center(
                 child: Column(children: [
-              Image.network(team.teamImage, height: 70),
+              Image.network(
+                  team.teamImage ??
+                      "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255",
+                  height: 70),
               Text(team.teamName),
             ]))
           ]),

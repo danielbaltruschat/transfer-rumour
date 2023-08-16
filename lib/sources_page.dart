@@ -175,7 +175,7 @@ class Source {
         sourceID: json["source_id"],
         sourceType: json["source_type"],
         sourceLink: json["source_link"],
-        sourceAuthor: json["author"]);
+        sourceAuthor: json["author_name"]);
   }
 }
 
@@ -281,35 +281,35 @@ class SourceWidget extends StatelessWidget {
 
 class SourcesList extends StatelessWidget {
   final Transfer transfer;
-  //late Future<List<TwitterEmbed>> futureTweets = getSources(transfer);
+  late Future<List<SourceWidget>> futureSources = getSources(transfer);
   // late Future<List<TwitterEmbed>> futureTweets = Future.value([
   //   const TwitterEmbed(tweetID: 1685649487539122177),
   //   const TwitterEmbed(tweetID: 1686114646984445952)
   // ]);
-  final Future<List<SourceWidget>> futureSources = Future.value([
-    SourceWidget.fromJson({
-      "text":
-          "This is a test tweetggggajwfoijaopgjwpogjsopagjop[es jgpoeshjgposejophjeposyjaioerjhgiohrdiohiordhgiozhdsrioghriod`ghiordhiozgjdroijhgiodrjhzgiuh`uildghiudhzliughduizghiudhigkh`oirhg;iordzhiohiod`hoig;oi]",
-      "source_id": 1,
-      "source_type": "twitter",
-      "source_link": "1685649487539122177",
-      "author": "elonmusk"
-    }),
-    SourceWidget.fromJson({
-      "text": "This is a test tweet",
-      "source_id": 2,
-      "source_type": "twitter",
-      "source_link": "1686114646984445952",
-      "author": "elonmusk"
-    }),
-    SourceWidget.fromJson({
-      "text": "This is a test tweet",
-      "source_id": 3,
-      "source_type": "twitter",
-      "source_link": "1685649487539122177",
-      "author": "elonmusk"
-    }),
-  ]);
+  // final Future<List<SourceWidget>> futureSources = Future.value([
+  //   SourceWidget.fromJson({
+  //     "text":
+  //         "This is a test tweetggggajwfoijaopgjwpogjsopagjop[es jgpoeshjgposejophjeposyjaioerjhgiohrdiohiordhgiozhdsrioghriod`ghiordhiozgjdroijhgiodrjhzgiuh`uildghiudhzliughduizghiudhigkh`oirhg;iordzhiohiod`hoig;oi]",
+  //     "source_id": 1,
+  //     "source_type": "twitter",
+  //     "source_link": "1685649487539122177",
+  //     "author": "elonmusk"
+  //   }),
+  //   SourceWidget.fromJson({
+  //     "text": "This is a test tweet",
+  //     "source_id": 2,
+  //     "source_type": "twitter",
+  //     "source_link": "1686114646984445952",
+  //     "author": "elonmusk"
+  //   }),
+  //   SourceWidget.fromJson({
+  //     "text": "This is a test tweet",
+  //     "source_id": 3,
+  //     "source_type": "twitter",
+  //     "source_link": "1685649487539122177",
+  //     "author": "elonmusk"
+  //   }),
+  // ]);
 
   SourcesList({required this.transfer});
 
@@ -383,8 +383,9 @@ class SourcesPage extends StatelessWidget {
                                 child: Column(children: [
                                   Expanded(
                                       flex: 4,
-                                      child: Image.network(
-                                          transfer.currentTeamImage)),
+                                      child: Image.network(transfer
+                                              .currentTeamImage ??
+                                          "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255")),
                                   Expanded(
                                       child: FittedBox(
                                           child: Text(transfer.currentTeam))),

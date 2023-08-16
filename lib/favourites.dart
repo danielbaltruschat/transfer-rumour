@@ -31,7 +31,7 @@ class FavouriteTeams extends StatelessWidget {
                   if (teamSnapshot.hasData) {
                     return TeamWidget.fromData(
                       teamName: teamSnapshot.data!['team_name'],
-                      teamImage: teamSnapshot.data!['team_logo'],
+                      teamImage: teamSnapshot.data!['logo_image'],
                       teamID: teamSnapshot.data!['team_id'],
                     );
                   } else if (teamSnapshot.hasError) {
@@ -79,8 +79,8 @@ class FavouritePlayers extends StatelessWidget {
                       playerName: playerSnapshot.data!['player_name'],
                       playerImage: playerSnapshot.data!['player_image'],
                       playerID: playerSnapshot.data!['player_id'],
-                      teamName: playerSnapshot.data!['team_name'],
-                      teamImage: playerSnapshot.data!['team_image'],
+                      teamName: playerSnapshot.data!['current_team_name'],
+                      teamImage: playerSnapshot.data!['current_team_logo'],
                     );
                   } else if (playerSnapshot.hasError) {
                     return Text("${playerSnapshot.error}");
@@ -119,8 +119,9 @@ class FavouriteTransfers extends StatelessWidget {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               return FutureBuilder(
-                future: //QueryServer.getTransferByTransferID(snapshot.data![index]),
-                    Future.value(demoTransfersJson[0]),
+                future:
+                    QueryServer.getTransferByTransferID(snapshot.data![index]),
+                //Future.value(demoTransfersJson[0]),
                 builder: (context, transferSnapshot) {
                   if (transferSnapshot.hasData) {
                     return TransferWidget(

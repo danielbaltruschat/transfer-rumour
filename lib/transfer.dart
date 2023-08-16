@@ -8,7 +8,7 @@ class Transfer {
   final int transferID;
   final int timestamp;
   final String playerImage;
-  final String currentTeamImage;
+  final String? currentTeamImage;
   final String rumouredTeamImage;
 
   const Transfer(
@@ -23,11 +23,11 @@ class Transfer {
 
   factory Transfer.fromJson(Map<String, dynamic> json) {
     return Transfer(
-      player: json['player'],
-      currentTeam: json['current_team'],
-      rumouredTeam: json['rumoured_team'],
+      player: json['player_name'],
+      currentTeam: json['current_team_name'],
+      rumouredTeam: json['rumoured_team_name'],
       transferID: json['transfer_id'],
-      timestamp: json['timestamp'],
+      timestamp: json['latest_timestamp'],
       playerImage: json['player_image'],
       currentTeamImage: json['current_team_logo'],
       rumouredTeamImage: json['rumoured_team_logo'],
@@ -94,8 +94,9 @@ class TransferWidget extends StatelessWidget {
                                 child: Column(children: [
                                   Expanded(
                                       flex: 4,
-                                      child: Image.network(
-                                          transfer.currentTeamImage)),
+                                      child: Image.network(transfer
+                                              .currentTeamImage ??
+                                          "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255")),
                                   Expanded(
                                       child: FittedBox(
                                           child: Text(transfer.currentTeam))),

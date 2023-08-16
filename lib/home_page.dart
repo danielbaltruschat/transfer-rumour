@@ -26,37 +26,38 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late bool isHome = true;
 
-  late Future<List<TransferWidget>> futureTransferWidgets = Future.value([
-    const TransferWidget(
-        transfer: Transfer(
-      currentTeam: "Team 1",
-      player: "Player 1",
-      rumouredTeam: "Team 2",
-      timestamp: 1600000,
-      playerImage:
-          "https://img.a.transfermarkt.technology/portrait/header/580195-1667830802.jpg?lm=1",
-      currentTeamImage:
-          "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
-      rumouredTeamImage:
-          "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
-      transferID: 1,
-    )),
-    const TransferWidget(
-        transfer: Transfer(
-      currentTeam: "Bayern Munich",
-      player: "Robert Lewandowski",
-      rumouredTeam: "Barcelona",
-      timestamp: 1600000,
-      transferID: 2,
-      playerImage:
-          "https://img.a.transfermarkt.technology/portrait/header/38253-1642434304.jpg?lm=1",
-      currentTeamImage:
-          "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
-      rumouredTeamImage:
-          "https://tmssl.akamaized.net/images/wappen/head/131.png?lm=1406739548",
-    ))
-  ]);
-  //late Future<List<TransferWidget>> futureTransferWidgets = getTransferWidgets();
+  // late Future<List<TransferWidget>> futureTransferWidgets = Future.value([
+  //   const TransferWidget(
+  //       transfer: Transfer(
+  //     currentTeam: "Team 1",
+  //     player: "Player 1",
+  //     rumouredTeam: "Team 2",
+  //     timestamp: 1600000,
+  //     playerImage:
+  //         "https://img.a.transfermarkt.technology/portrait/header/580195-1667830802.jpg?lm=1",
+  //     currentTeamImage:
+  //         "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
+  //     rumouredTeamImage:
+  //         "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
+  //     transferID: 1,
+  //   )),
+  //   const TransferWidget(
+  //       transfer: Transfer(
+  //     currentTeam: "Bayern Munich",
+  //     player: "Robert Lewandowski",
+  //     rumouredTeam: "Barcelona",
+  //     timestamp: 1600000,
+  //     transferID: 2,
+  //     playerImage:
+  //         "https://img.a.transfermarkt.technology/portrait/header/38253-1642434304.jpg?lm=1",
+  //     currentTeamImage:
+  //         "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
+  //     rumouredTeamImage:
+  //         "https://tmssl.akamaized.net/images/wappen/head/131.png?lm=1406739548",
+  //   ))
+  // ]);
+  late Future<List<TransferWidget>> futureTransferWidgets =
+      getTransferWidgets();
 
   Future<List<TransferWidget>> getTransferWidgets() async {
     Future<List<Map<String, dynamic>>> transferList =

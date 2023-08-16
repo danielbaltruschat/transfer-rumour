@@ -7,38 +7,41 @@ class TeamPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final teamData = ModalRoute.of(context)!.settings.arguments as List<String>;
-    //final Future<List<TransferWidget>> futureTransferWidgets = TransferWidget.transferWidgetFromJsonList(QueryServer.getTransfersByTeamID(teamData[0]));
-    final futureTransferWidgets = Future.value([
-      const TransferWidget(
-          transfer: Transfer(
-        currentTeam: "Bayern Munich",
-        player: "Jamal Musiala",
-        rumouredTeam: "Paris Saint-Germain",
-        timestamp: 1600000,
-        playerImage:
-            "https://img.a.transfermarkt.technology/portrait/header/580195-1667830802.jpg?lm=1",
-        currentTeamImage:
-            "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
-        rumouredTeamImage:
-            "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
-        transferID: 1,
-      )),
-      const TransferWidget(
-          transfer: Transfer(
-        currentTeam: "Bayern Munich",
-        player: "Robert Lewandowski",
-        rumouredTeam: "Barcelona",
-        timestamp: 1600000,
-        transferID: 2,
-        playerImage:
-            "https://img.a.transfermarkt.technology/portrait/header/38253-1642434304.jpg?lm=1",
-        currentTeamImage:
-            "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
-        rumouredTeamImage:
-            "https://tmssl.akamaized.net/images/wappen/head/131.png?lm=1406739548",
-      ))
-    ]);
+    final teamData =
+        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    final Future<List<TransferWidget>> futureTransferWidgets =
+        TransferWidget.transferWidgetsFromJsonList(
+            QueryServer.getTransfersByTeamID(teamData[0]));
+    // final futureTransferWidgets = Future.value([
+    //   const TransferWidget(
+    //       transfer: Transfer(
+    //     currentTeam: "Bayern Munich",
+    //     player: "Jamal Musiala",
+    //     rumouredTeam: "Paris Saint-Germain",
+    //     timestamp: 1600000,
+    //     playerImage:
+    //         "https://img.a.transfermarkt.technology/portrait/header/580195-1667830802.jpg?lm=1",
+    //     currentTeamImage:
+    //         "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
+    //     rumouredTeamImage:
+    //         "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
+    //     transferID: 1,
+    //   )),
+    //   const TransferWidget(
+    //       transfer: Transfer(
+    //     currentTeam: "Bayern Munich",
+    //     player: "Robert Lewandowski",
+    //     rumouredTeam: "Barcelona",
+    //     timestamp: 1600000,
+    //     transferID: 2,
+    //     playerImage:
+    //         "https://img.a.transfermarkt.technology/portrait/header/38253-1642434304.jpg?lm=1",
+    //     currentTeamImage:
+    //         "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
+    //     rumouredTeamImage:
+    //         "https://tmssl.akamaized.net/images/wappen/head/131.png?lm=1406739548",
+    //   ))
+    // ]);
     return Scaffold(
       appBar: AppBar(
           toolbarHeight: 70,
