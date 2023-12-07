@@ -25,37 +25,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late bool isHome = true;
-
-  // late Future<List<TransferWidget>> futureTransferWidgets = Future.value([
-  //   const TransferWidget(
-  //       transfer: Transfer(
-  //     currentTeam: "Team 1",
-  //     player: "Player 1",
-  //     rumouredTeam: "Team 2",
-  //     timestamp: 1600000,
-  //     playerImage:
-  //         "https://img.a.transfermarkt.technology/portrait/header/580195-1667830802.jpg?lm=1",
-  //     currentTeamImage:
-  //         "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
-  //     rumouredTeamImage:
-  //         "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
-  //     transferID: 1,
-  //   )),
-  //   const TransferWidget(
-  //       transfer: Transfer(
-  //     currentTeam: "Bayern Munich",
-  //     player: "Robert Lewandowski",
-  //     rumouredTeam: "Barcelona",
-  //     timestamp: 1600000,
-  //     transferID: 2,
-  //     playerImage:
-  //         "https://img.a.transfermarkt.technology/portrait/header/38253-1642434304.jpg?lm=1",
-  //     currentTeamImage:
-  //         "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
-  //     rumouredTeamImage:
-  //         "https://tmssl.akamaized.net/images/wappen/head/131.png?lm=1406739548",
-  //   ))
-  // ]);
   late Future<List<TransferWidget>> futureTransferWidgets =
       getTransferWidgets();
 
@@ -78,10 +47,15 @@ class _HomePageState extends State<HomePage> {
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        //backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         // Here we take the value from the HomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(widget.title,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(fontWeight: FontWeight.w700)),
         actions: [
           IconButton(
               onPressed: () {
@@ -106,7 +80,8 @@ class _HomePageState extends State<HomePage> {
                   } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");
                   } else {
-                    return const CircularProgressIndicator.adaptive();
+                    return const Center(
+                        child: CircularProgressIndicator.adaptive());
                   }
                 },
               )
@@ -114,44 +89,45 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.inversePrimary,
+            color: Theme.of(context).colorScheme.surface,
           ),
           child: Padding(
               padding: EdgeInsets.all(10),
               child: SafeArea(
                   child: GNav(
-                rippleColor: const Color.fromARGB(
-                    255, 93, 32, 32), // tab button ripple color when pressed
+                // rippleColor: const Color.fromARGB(
+                //     255, 93, 32, 32), // tab button ripple color when pressed
                 hoverColor: Colors.grey[700]!, // tab button hover color
                 haptic: true, // haptic feedback
                 tabBorderRadius: 15,
-                tabActiveBorder: Border.all(
-                    color: Colors.black, width: 1), // tab button border
-                tabBorder: Border.all(
-                    color: Colors.grey, width: 1), // tab button border
-                tabShadow: [
-                  BoxShadow(
-                      color: Color.alphaBlend(
-                          Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withOpacity(0.7),
-                          Colors.white),
-                      blurRadius: 8)
-                ], // tab button shadow
-                curve: Curves.easeOutExpo, // tab animation curves
-                duration: Duration(milliseconds: 500), // tab animation duration
-                gap: 8, // the tab button gap between icon and text
-                color: Color.alphaBlend(
-                    Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                    Colors.white), // unselected icon color
-                activeColor: Color.alphaBlend(
-                    Theme.of(context).colorScheme.primary.withOpacity(0.7),
-                    Colors.white), // selected icon and text color
+                // tabActiveBorder: Border.all(
+                //     color: Colors.black, width: 1), // tab button border
+                // tabBorder: Border.all(
+                //     color: Colors.grey, width: 1), // tab button border
+                // tabShadow: [
+                //   BoxShadow(
+                //       color: Color.alphaBlend(
+                //           Theme.of(context)
+                //               .colorScheme
+                //               .primary
+                //               .withOpacity(0.7),
+                //           Colors.white),
+                //       blurRadius: 8)
+                // ], // tab button shadow
+                curve: Curves.easeIn, // tab animation curves
+                duration: Duration(milliseconds: 300), // tab animation duration
+                gap: 5, // the tab button gap between icon and text
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface, // unselected icon color
+                activeColor: Theme.of(context)
+                    .colorScheme
+                    .primary, // selected icon and text color
                 iconSize: 24, // tab button icon size
-                tabBackgroundColor: Color.alphaBlend(
-                    Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                    Colors.white), // selected tab background color
+                tabBackgroundColor: Theme.of(context)
+                    .colorScheme
+                    .primary
+                    .withOpacity(0.2), // selected tab background color
                 padding: EdgeInsets.symmetric(
                     horizontal: 50, vertical: 5), // navigation bar padding
                 tabs: [

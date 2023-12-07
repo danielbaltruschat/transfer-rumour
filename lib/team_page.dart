@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'transfer.dart';
+import 'team.dart';
 import 'queries.dart';
 
 class TeamPage extends StatelessWidget {
@@ -7,11 +8,13 @@ class TeamPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final teamData =
-        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    // final teamData =
+    //     ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+
+    final team = ModalRoute.of(context)!.settings.arguments as Team;
     final Future<List<TransferWidget>> futureTransferWidgets =
         TransferWidget.transferWidgetsFromJsonList(
-            QueryServer.getTransfersByTeamID(teamData[2]));
+            QueryServer.getTransfersByTeamID(team.teamID));
     // final futureTransferWidgets = Future.value([
     //   const TransferWidget(
     //       transfer: Transfer(
@@ -44,32 +47,13 @@ class TeamPage extends StatelessWidget {
     // ]);
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: 70,
-          flexibleSpace: Card(
-            elevation: 5,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            child: SafeArea(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                    // decoration: BoxDecoration(
-                    //   border: Border.all(width: 1),
-                    //   borderRadius: BorderRadius.circular(20), //<-- SEE HERE
-                    // ),
-                    padding: EdgeInsets.only(right: 15, left: 10, bottom: 5),
-                    child: Image.network(teamData[1] ??
-                        "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255")),
-                Text(teamData[0],
-                    style: const TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'Helvetica',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
-              ],
-            )),
-          )),
+          toolbarHeight: MediaQuery.of(context).size.width * (1 / 6),
+          flexibleSpace: SafeArea(
+              child: Padding(
+                  padding: const EdgeInsets.all(7.0),
+                  child: Row(children: [
+                    Expanded(child: TeamWidgetUnboxed(team: team)),
+                  ])))),
       body: FutureBuilder<List<TransferWidget>>(
         future: futureTransferWidgets,
         builder: (context, snapshot) {

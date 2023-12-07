@@ -187,7 +187,7 @@ class SourceWidget extends StatelessWidget {
 
   SourceWidget({required this.source}) {
     if (source.sourceType.toLowerCase() == "twitter") {
-      image = Image.asset("assets/X.png");
+      image = Image.asset("assets/X_white.png");
       sourceURL =
           "https://twitter.com/${source.sourceAuthor}/status/${source.sourceLink}";
       sourceAuthorDisplay = "@${source.sourceAuthor}";
@@ -223,59 +223,62 @@ class SourceWidget extends StatelessWidget {
             // ConstrainedBox(
             //     constraints: BoxConstraints(maxHeight: 200),
             //     child:
-            Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                          color: Colors.black12,
-                          offset: Offset(0, 2),
-                          blurRadius: 4)
-                    ]),
-                child: Row(children: [
-                  Expanded(
-                      flex: 1,
-                      child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Padding(
-                              padding: EdgeInsets.only(top: 5.0),
-                              child: image))),
-                  const SizedBox(width: 18),
-                  Expanded(
-                      flex: 4,
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(children: [
-                            Text(sourceAuthorDisplay,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w500)),
-                            const SizedBox(height: 3),
-                            Text(source.sourceText,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                softWrap: true,
-                                maxLines: 3,
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500))
-                          ]))),
-                  Expanded(
-                      flex: 1,
-                      child: Align(
-                          alignment: Alignment.topCenter,
-                          child: IconButton(
-                              icon: const Icon(Icons.open_in_new,
-                                  color: Colors.black),
-                              onPressed: _openLinkInBrowser)))
-                ])));
+            Padding(
+                padding: const EdgeInsets.only(top: 5, left: 3, right: 3),
+                child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(0, 2),
+                              blurRadius: 4)
+                        ]),
+                    child: Row(children: [
+                      Expanded(
+                          flex: 1,
+                          child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Padding(
+                                  padding: EdgeInsets.only(top: 5.0),
+                                  child: image))),
+                      const SizedBox(width: 18),
+                      Expanded(
+                          flex: 4,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Column(children: [
+                                Text(sourceAuthorDisplay,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w500)),
+                                const SizedBox(height: 3),
+                                Text(source.sourceText,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                    softWrap: true,
+                                    maxLines: 3,
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500))
+                              ]))),
+                      Expanded(
+                          flex: 1,
+                          child: Align(
+                              alignment: Alignment.topCenter,
+                              child: IconButton(
+                                  icon: const Icon(Icons.open_in_new),
+                                  onPressed: _openLinkInBrowser)))
+                    ]))));
   }
 }
 
@@ -354,60 +357,15 @@ class SourcesPage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Transfer;
     return Scaffold(
         appBar: AppBar(
-            toolbarHeight: MediaQuery.of(context).size.width * 0.25,
-            flexibleSpace: Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
-              child: SafeArea(
-                  child: Padding(
-                      padding: const EdgeInsets.only(bottom: 5.0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            const SizedBox(width: 30),
-                            Expanded(
-                                flex: 5,
-                                child: Column(children: [
-                                  Expanded(
-                                      flex: 4,
-                                      child: Image.network(transfer
-                                              .playerImage ??
-                                          "https://img.a.transfermarkt.technology/portrait/header/default.jpg?lm=1")),
-                                  Expanded(
-                                      child: FittedBox(
-                                          child: Text(transfer.player))),
-                                ])),
-                            const SizedBox(width: 5),
-                            Expanded(
-                                flex: 4,
-                                child: Column(children: [
-                                  Expanded(
-                                      flex: 4,
-                                      child: Image.network(transfer
-                                              .currentTeamImage ??
-                                          "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255")),
-                                  Expanded(
-                                      child: FittedBox(
-                                          child: Text(transfer.currentTeam))),
-                                ])),
-                            Expanded(
-                                flex: 1,
-                                child: const Icon(Icons.arrow_forward)),
-                            Expanded(
-                                flex: 4,
-                                child: Column(children: [
-                                  Expanded(
-                                      flex: 4,
-                                      child: Image.network(transfer
-                                              .rumouredTeamImage ??
-                                          "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255")),
-                                  Expanded(
-                                      child: FittedBox(
-                                          child: Text(transfer.rumouredTeam))),
-                                ])),
-                          ]))),
-            )),
+          toolbarHeight: MediaQuery.of(context).size.width * 0.25,
+          flexibleSpace: SafeArea(
+              child: Padding(
+                  padding: const EdgeInsets.all(7.0),
+                  child: Row(children: [
+                    const SizedBox(width: 50),
+                    Expanded(child: TransferWidgetUnboxed(transfer: transfer))
+                  ]))),
+        ),
 
         //body: TwitterEmbed(tweetID: 1685649487539122177));
         body: SourcesList(transfer: transfer));

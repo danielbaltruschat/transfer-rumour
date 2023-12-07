@@ -81,6 +81,11 @@ class FavouritePlayers extends StatelessWidget {
                       playerID: playerSnapshot.data!['player_id'],
                       teamName: playerSnapshot.data!['current_team_name'],
                       teamImage: playerSnapshot.data!['current_team_logo'],
+                      nationFlag: playerSnapshot.data!['nation_flag_image'],
+                      nationName: playerSnapshot.data!['nation_name'],
+                      marketValue: playerSnapshot.data!['market_value'],
+                      playerPosition: playerSnapshot.data!['player_position'],
+                      age: playerSnapshot.data!['age'],
                     );
                   } else if (playerSnapshot.hasError) {
                     return Text("${playerSnapshot.error}");

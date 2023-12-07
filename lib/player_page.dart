@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'transfer.dart';
 import 'queries.dart';
+import 'player.dart';
 
 class PlayerPage extends StatelessWidget {
   const PlayerPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final playerData =
-        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    final player = ModalRoute.of(context)!.settings.arguments as Player;
 
     final Future<List<TransferWidget>> futureTransferWidgets =
         TransferWidget.transferWidgetsFromJsonList(
-            QueryServer.getTransfersByPlayerID(playerData[2]));
+            QueryServer.getTransfersByPlayerID(player.playerID));
 
     // final futureTransferWidgets = Future.value([
     //   const TransferWidget(
@@ -46,32 +46,14 @@ class PlayerPage extends StatelessWidget {
     // ]);
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: 70,
-          flexibleSpace: Card(
-            elevation: 5,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            child: SafeArea(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                    // decoration: BoxDecoration(
-                    //   border: Border.all(width: 1),
-                    //   borderRadius: BorderRadius.circular(20), //<-- SEE HERE
-                    // ),
-                    padding: EdgeInsets.only(right: 15, left: 10, bottom: 5),
-                    child: Image.network(playerData[1] ??
-                        "https://img.a.transfermarkt.technology/portrait/header/default.jpg?lm=1")),
-                Text(playerData[0],
-                    style: const TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'Helvetica',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
-              ],
-            )),
-          )),
+          toolbarHeight: MediaQuery.of(context).size.width * 0.25,
+          flexibleSpace: SafeArea(
+              child: Padding(
+                  padding: const EdgeInsets.all(7.0),
+                  child: Row(children: [
+                    const SizedBox(width: 50),
+                    Expanded(child: PlayerWidgetUnboxed(player: player)),
+                  ])))),
       body: FutureBuilder<List<TransferWidget>>(
         future: futureTransferWidgets,
         builder: (context, snapshot) {
