@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //const ipOfAPI = "http://10.140.1.199:8000";
-const ipOfAPI = "http://10.140.1.196:8000";
+const ipOfAPI = "http://home.baltruschat.de:8000";
 
 http.Client getClient() => http.Client();
 

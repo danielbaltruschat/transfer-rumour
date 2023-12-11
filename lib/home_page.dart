@@ -95,25 +95,9 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.all(10),
               child: SafeArea(
                   child: GNav(
-                // rippleColor: const Color.fromARGB(
-                //     255, 93, 32, 32), // tab button ripple color when pressed
                 hoverColor: Colors.grey[700]!, // tab button hover color
                 haptic: true, // haptic feedback
                 tabBorderRadius: 15,
-                // tabActiveBorder: Border.all(
-                //     color: Colors.black, width: 1), // tab button border
-                // tabBorder: Border.all(
-                //     color: Colors.grey, width: 1), // tab button border
-                // tabShadow: [
-                //   BoxShadow(
-                //       color: Color.alphaBlend(
-                //           Theme.of(context)
-                //               .colorScheme
-                //               .primary
-                //               .withOpacity(0.7),
-                //           Colors.white),
-                //       blurRadius: 8)
-                // ], // tab button shadow
                 curve: Curves.easeIn, // tab animation curves
                 duration: Duration(milliseconds: 300), // tab animation duration
                 gap: 5, // the tab button gap between icon and text

@@ -22,51 +22,6 @@ class _SearchResultsState extends State<SearchResults> {
     final futureTeams = TeamWidget.teamWidgetFromJsonList(
         QueryServer.searchTeams(widget.query));
 
-    // final futurePlayers = Future.value([
-    //   PlayerWidget.fromData(
-    //       playerName: "Lionel Messi",
-    //       playerImage:
-    //           "https://img.a.transfermarkt.technology/portrait/header/28003-1690045464.jpg?lm=1",
-    //       playerID: 1,
-    //       teamName: "Inter Miami CF",
-    //       teamImage:
-    //           "https://tmssl.akamaized.net/images/wappen/head/69261.png?lm=1573561237"),
-    //   PlayerWidget.fromData(
-    //       playerName: "Cristiano Ronaldo",
-    //       playerImage:
-    //           "https://img.a.transfermarkt.technology/portrait/header/8198-1685035469.png?lm=1",
-    //       playerID: 2,
-    //       teamName: "Al-Nassr FC",
-    //       teamImage:
-    //           "https://tmssl.akamaized.net/images/wappen/head/18544.png?lm=1683310728"),
-    //   PlayerWidget.fromData(
-    //       playerName: "Neymar",
-    //       playerImage:
-    //           "https://img.a.transfermarkt.technology/portrait/header/68290-1669394812.jpg?lm=1",
-    //       playerID: 3,
-    //       teamName: "Paris Saint-Germain",
-    //       teamImage:
-    //           "https://tmssl.akamaized.net/images/wappen/head/583.png?lm=1522312728"),
-    // ]);
-
-    // final futureTeams = Future.value([
-    //   TeamWidget.fromData(
-    //       teamID: 1,
-    //       teamName: "Inter Miami CF",
-    //       teamImage:
-    //           "https://tmssl.akamaized.net/images/wappen/head/69261.png?lm=1573561237"),
-    //   TeamWidget.fromData(
-    //       teamID: 2,
-    //       teamName: "Al-Nassr FC",
-    //       teamImage:
-    //           "https://tmssl.akamaized.net/images/wappen/head/18544.png?lm=1683310728"),
-    //   TeamWidget.fromData(
-    //       teamID: 3,
-    //       teamName: "Paris Saint-Germain",
-    //       teamImage:
-    //           "https://tmssl.akamaized.net/images/wappen/head/583.png?lm=1522312728"),
-    // ]);
-
     List<bool> isPlayerBoolList = [true, false];
 
     return Column(children: [
