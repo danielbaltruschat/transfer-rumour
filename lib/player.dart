@@ -78,7 +78,7 @@ class PlayerWidgetUnboxed extends StatelessWidget {
                                 fontWeight: FontWeight.bold, fontSize: 16),
                             icon: Icons.person),
                         IconLabel(
-                            label: player.age.toString(), icon: Icons.cake)
+                            label: "${player.age} years", icon: Icons.cake)
                       ]),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
