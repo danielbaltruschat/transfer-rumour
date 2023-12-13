@@ -5,8 +5,8 @@ class ItemPair<T1, T2> {
   ItemPair(this.item, this.priority);
 }
 
-class PriorityQueue {
-  final List queue = [];
+class PriorityQueue<T> {
+  final List<ItemPair<T, int>> queue = [];
   final int length = 0;
 
   void dequeue() {
@@ -15,7 +15,7 @@ class PriorityQueue {
 
   void enqueue(itemToAdd, int priority) {
     for (int i = length; i >= 0; i -= 1) {
-      if (queue[i].priority < priority) {
+      if ((i == 0) || (queue[i].priority > priority)) {
         if (i == length) {
           queue.add(ItemPair(itemToAdd, priority));
         } else {
@@ -25,7 +25,7 @@ class PriorityQueue {
     }
   }
 
-  List getList() {
-    return queue;
+  List<T> getList() {
+    return queue.map((itemPair) => itemPair.item).toList();
   }
 }

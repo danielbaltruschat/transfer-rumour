@@ -107,8 +107,15 @@ class PlayerFace extends StatelessWidget {
 
 class TransferWidgetUnboxed extends StatelessWidget {
   final Transfer transfer;
+  final VoidCallback? onPlayerTap;
+  final VoidCallback? onCurrentTeamTap;
+  final VoidCallback? onRumouredTeamTap;
 
-  const TransferWidgetUnboxed({required this.transfer});
+  const TransferWidgetUnboxed(
+      {required this.transfer,
+      this.onPlayerTap,
+      this.onCurrentTeamTap,
+      this.onRumouredTeamTap});
 
   @override
   Widget build(BuildContext context) {
@@ -118,11 +125,13 @@ class TransferWidgetUnboxed extends StatelessWidget {
           child: Column(children: [
             Expanded(
                 flex: 3,
-                child: PlayerFace(
-                    imageLink: transfer.playerImage ??
-                        "https://img.a.transfermarkt.technology/portrait/header/default.jpg?lm=1",
-                    flagLink: transfer.playerFlag ??
-                        "https://tmssl.akamaized.net/images/flagge/head/189.png?lm=1520611569")),
+                child: GestureDetector(
+                    onTap: onPlayerTap,
+                    child: PlayerFace(
+                        imageLink: transfer.playerImage ??
+                            "https://img.a.transfermarkt.technology/portrait/header/default.jpg?lm=1",
+                        flagLink: transfer.playerFlag ??
+                            "https://tmssl.akamaized.net/images/flagge/head/189.png?lm=1520611569"))),
             Expanded(child: FittedBox(child: Text(transfer.player))),
           ])),
       SizedBox(width: 5),
@@ -131,8 +140,10 @@ class TransferWidgetUnboxed extends StatelessWidget {
           child: Column(children: [
             Expanded(
                 flex: 3,
-                child: Image.network(transfer.currentTeamImage ??
-                    "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255")),
+                child: GestureDetector(
+                    onTap: onCurrentTeamTap,
+                    child: Image.network(transfer.currentTeamImage ??
+                        "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255"))),
             Expanded(child: FittedBox(child: Text(transfer.currentTeam))),
           ])),
       Expanded(flex: 1, child: const Icon(Icons.arrow_forward)),
@@ -141,8 +152,10 @@ class TransferWidgetUnboxed extends StatelessWidget {
           child: Column(children: [
             Expanded(
                 flex: 3,
-                child: Image.network(transfer.rumouredTeamImage ??
-                    "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255")),
+                child: GestureDetector(
+                    onTap: onRumouredTeamTap,
+                    child: Image.network(transfer.rumouredTeamImage ??
+                        "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255"))),
             Expanded(child: FittedBox(child: Text(transfer.rumouredTeam))),
           ])),
       SizedBox(width: 30)

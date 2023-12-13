@@ -1,8 +1,73 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'transfer.dart';
 import 'player.dart';
 import 'team.dart';
 import 'queries.dart';
+import 'priority_queue.dart';
+
+class AllFavourites extends StatelessWidget {
+  const AllFavourites({super.key});
+
+  Future<List<Widget>> getFutureWidgets() async {
+    final Future<List<String>> favouriteTransfers =
+        QueryLocal.getFavourites("favourite_transfers");
+    final Future<List<String>> favouritePlayers =
+        QueryLocal.getFavourites("favourite_players");
+    final Future<List<String>> favouriteTeams =
+        QueryLocal.getFavourites("favourite_teams");
+
+    //List<Widget> favouriteWidgets = []; // Priority queue
+    PriorityQueue<Widget> favouriteWidgets = PriorityQueue();
+    for (String transferID in await favouriteTransfers) {
+      final transfer = Transfer.fromJson(
+          await QueryServer.getTransferByTransferID(transferID));
+      //favouriteWidgets.add(TransferWidget(transfer: transfer));
+      favouriteWidgets.enqueue(TransferWidget(transfer: transfer), 0);
+    }
+
+    for (String playerID in await favouritePlayers) {
+      final player =
+          Player.fromJson(await QueryServer.getPlayerInfoByPlayerID(playerID));
+      //favouriteWidgets.add(PlayerWidget(player: player));
+      favouriteWidgets.enqueue(PlayerWidget(player: player), 1);
+    }
+
+    for (String teamID in await favouriteTeams) {
+      final team = Team.fromJson(await QueryServer.getTeamInfoByTeamID(teamID));
+      //favouriteWidgets.add(TeamWidget(team: team));
+      favouriteWidgets.enqueue(TeamWidget(team: team), 2);
+    }
+
+    return favouriteWidgets.getList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Future<List<Widget>> favouriteWidgets = getFutureWidgets();
+
+    return FutureBuilder(
+        future: favouriteWidgets,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!.length == 0) {
+              return const Center(
+                child: Text("No favourites"),
+              );
+            }
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return snapshot.data![index];
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+          return const Center(child: CircularProgressIndicator());
+        });
+  }
+}
 
 class FavouriteTeams extends StatelessWidget {
   const FavouriteTeams({super.key});
@@ -155,34 +220,40 @@ class FavouritesBody extends StatefulWidget {
 
 class _FavouritesBodyState extends State<FavouritesBody> {
   //FavouritesBody({super.key});
-  late int currentIndex = 0;
+  int? currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      ToggleButtons(
-          children: const [Text("Transfers"), Text("Players"), Text("Teams")],
-          isSelected: [currentIndex == 0, currentIndex == 1, currentIndex == 2],
-          onPressed: (index) {
-            if (currentIndex != index) {
-              setState(() {
-                currentIndex = index;
-              });
-            }
-          },
-          borderRadius: BorderRadius.circular(5),
-          constraints: const BoxConstraints(
-            minHeight: 40.0,
-            minWidth: 80.0,
-          )),
+      Center(
+          child: CupertinoSlidingSegmentedControl(
+              thumbColor:
+                  Theme.of(context).colorScheme.primary.withOpacity(0.7),
+              children: const {
+                0: Padding(padding: EdgeInsets.all(5), child: Text("All")),
+                1: Padding(
+                    padding: EdgeInsets.all(5), child: Text("Transfers")),
+                2: Padding(padding: EdgeInsets.all(5), child: Text("Players")),
+                3: Padding(padding: EdgeInsets.all(5), child: Text("Teams"))
+              },
+              groupValue: currentIndex,
+              onValueChanged: (int? index) {
+                if (currentIndex != index) {
+                  setState(() {
+                    currentIndex = index;
+                  });
+                }
+              })),
       Expanded(
           child: AnimatedSwitcher(
-              duration: Duration(milliseconds: 500),
-              child: currentIndex == 0
-                  ? FavouriteTransfers()
-                  : currentIndex == 1
-                      ? FavouritePlayers()
-                      : FavouriteTeams()))
+              duration: const Duration(milliseconds: 500),
+              child: currentIndex == 1
+                  ? const FavouriteTransfers()
+                  : currentIndex == 2
+                      ? const FavouritePlayers()
+                      : currentIndex == 3
+                          ? const FavouriteTeams()
+                          : const AllFavourites()))
     ]);
   }
 }

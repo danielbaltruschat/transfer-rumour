@@ -363,7 +363,12 @@ class SourcesPage extends StatelessWidget {
                   padding: const EdgeInsets.all(7.0),
                   child: Row(children: [
                     const SizedBox(width: 50),
-                    Expanded(child: TransferWidgetUnboxed(transfer: transfer))
+                    Expanded(
+                        child: TransferWidgetUnboxed(
+                            transfer: transfer,
+                            onPlayerTap: () {
+                              print("Player tapped");
+                            }))
                   ]))),
         ),
 

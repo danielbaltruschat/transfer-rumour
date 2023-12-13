@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'team.dart';
 import 'player.dart';
@@ -13,7 +14,7 @@ class SearchResults extends StatefulWidget {
 }
 
 class _SearchResultsState extends State<SearchResults> {
-  late int currentIndex = widget.initialIndex;
+  late int? currentIndex = widget.initialIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -22,30 +23,30 @@ class _SearchResultsState extends State<SearchResults> {
     final futureTeams = TeamWidget.teamWidgetFromJsonList(
         QueryServer.searchTeams(widget.query));
 
-    List<bool> isPlayerBoolList = [true, false];
-
     return Column(children: [
       Container(
           height: 50,
-          child: ToggleButtons(
-              children: const [Text("Players"), Text("Teams")],
-              isSelected: [currentIndex == 0, currentIndex == 1],
-              onPressed: (index) {
-                if (currentIndex != index) {
-                  setState(() {
-                    currentIndex = index;
-                  });
-                }
-              },
-              borderRadius: BorderRadius.circular(5),
-              constraints: const BoxConstraints(
-                minHeight: 40.0,
-                minWidth: 80.0,
-              ))),
+          child: CupertinoSlidingSegmentedControl(
+            thumbColor: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+            children: const {
+              0: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text("Players")), //only need padding on one side
+              1: Text("Teams")
+            },
+            groupValue: currentIndex,
+            onValueChanged: (index) {
+              if (currentIndex != index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              }
+            },
+          )),
       Expanded(
           child: AnimatedSwitcher(
               duration: Duration(milliseconds: 300),
-              child: isPlayerBoolList[currentIndex]
+              child: currentIndex == 0
                   ? FutureBuilder(
                       future: futurePlayers,
                       builder: (context, snapshot) {
