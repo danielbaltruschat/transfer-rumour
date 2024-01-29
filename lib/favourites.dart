@@ -6,6 +6,19 @@ import 'team.dart';
 import 'queries.dart';
 import 'priority_queue.dart';
 
+Future<Widget> getTransferWidget(transferID) async {
+  try {
+    final transfer = Transfer.fromJson(
+        await QueryServer.getTransferByTransferID(transferID));
+    return TransferWidget(transfer: transfer);
+  } on TransferNotFoundException {
+    await QueryLocal.removeFavourite("favourite_transfers", transferID);
+    return const SizedBox();
+  } catch (e) {
+    rethrow;
+  }
+}
+
 class AllFavourites extends StatelessWidget {
   const AllFavourites({super.key});
 
@@ -20,22 +33,24 @@ class AllFavourites extends StatelessWidget {
     //List<Widget> favouriteWidgets = []; // Priority queue
     PriorityQueue<Widget> favouriteWidgets = PriorityQueue();
     for (String transferID in await favouriteTransfers) {
-      final transfer = Transfer.fromJson(
-          await QueryServer.getTransferByTransferID(transferID));
-      //favouriteWidgets.add(TransferWidget(transfer: transfer));
-      favouriteWidgets.enqueue(TransferWidget(transfer: transfer), 0);
+      try {
+        final transferWidget = await getTransferWidget(transferID);
+        favouriteWidgets.enqueue(transferWidget, 0);
+      } catch (e) {
+        if (e.toString() == "Transfer not found") {
+          await QueryLocal.removeFavourite("favourite_transfers", transferID);
+        }
+      }
     }
 
     for (String playerID in await favouritePlayers) {
       final player =
           Player.fromJson(await QueryServer.getPlayerInfoByPlayerID(playerID));
-      //favouriteWidgets.add(PlayerWidget(player: player));
       favouriteWidgets.enqueue(PlayerWidget(player: player), 1);
     }
 
     for (String teamID in await favouriteTeams) {
       final team = Team.fromJson(await QueryServer.getTeamInfoByTeamID(teamID));
-      //favouriteWidgets.add(TeamWidget(team: team));
       favouriteWidgets.enqueue(TeamWidget(team: team), 2);
     }
 
@@ -190,12 +205,12 @@ class FavouriteTransfers extends StatelessWidget {
             itemBuilder: (context, index) {
               return FutureBuilder(
                 future:
-                    QueryServer.getTransferByTransferID(snapshot.data![index]),
+                    //QueryServer.getTransferByTransferID(snapshot.data![index]),
+                    getTransferWidget(snapshot.data![index]),
                 //Future.value(demoTransfersJson[0]),
                 builder: (context, transferSnapshot) {
                   if (transferSnapshot.hasData) {
-                    return TransferWidget(
-                        transfer: Transfer.fromJson(transferSnapshot.data!));
+                    return transferSnapshot.data!;
                   } else if (transferSnapshot.hasError) {
                     return Text("${transferSnapshot.error}");
                   }

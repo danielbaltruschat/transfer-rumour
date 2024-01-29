@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'queries.dart';
 
 class FavouriteButtonSaveLocally extends StatelessWidget {
   final String valueToSave;
@@ -14,22 +15,14 @@ class FavouriteButtonSaveLocally extends StatelessWidget {
       this.onUnFavouriteAddition});
 
   void onFavourite() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> temp = prefs.getStringList(saveKey) ?? [];
-    if (!temp.contains(valueToSave.toString())) {
-      await prefs.setStringList(saveKey, temp..add(valueToSave.toString()));
-    }
+    await QueryLocal.addFavourite(saveKey, valueToSave);
     if (onFavouriteAddition != null) {
       onFavouriteAddition!();
     }
   }
 
   void onUnFavourite() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> temp = prefs.getStringList(saveKey) as List<String>;
-    if (temp.contains(valueToSave.toString())) {
-      await prefs.setStringList(saveKey, temp..remove(valueToSave.toString()));
-    }
+    await QueryLocal.removeFavourite(saveKey, valueToSave);
     if (onUnFavouriteAddition != null) {
       onUnFavouriteAddition!();
     }

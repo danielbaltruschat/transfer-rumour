@@ -36,12 +36,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _goToSources method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -67,24 +61,31 @@ class _HomePageState extends State<HomePage> {
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
         child: isHome
-            ? FutureBuilder<List<TransferWidget>>(
-                future: futureTransferWidgets,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        return snapshot.data![index];
-                      },
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  } else {
-                    return const Center(
-                        child: CircularProgressIndicator.adaptive());
-                  }
+            ? RefreshIndicator(
+                onRefresh: () {
+                  setState(() {
+                    futureTransferWidgets = getTransferWidgets();
+                  });
+                  return futureTransferWidgets;
                 },
-              )
+                child: FutureBuilder<List<TransferWidget>>(
+                  future: futureTransferWidgets,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return snapshot.data![index];
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    } else {
+                      return const Center(
+                          child: CircularProgressIndicator.adaptive());
+                    }
+                  },
+                ))
             : FavouritesBody(),
       ),
       bottomNavigationBar: Container(

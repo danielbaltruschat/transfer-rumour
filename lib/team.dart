@@ -31,8 +31,10 @@ class TeamWidgetUnboxed extends StatelessWidget {
       Image.network(team.teamImage ??
           "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255"),
       const SizedBox(width: 20),
-      Text(team.teamName,
-          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold))
+      FittedBox(
+          child: Text(team.teamName,
+              style:
+                  const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)))
     ]));
   }
 }

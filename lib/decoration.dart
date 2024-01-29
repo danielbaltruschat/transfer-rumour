@@ -21,8 +21,9 @@ class IconLabel extends StatelessWidget {
 
 class DecoratedContainer extends StatelessWidget {
   final Widget child;
+  final Color? colour;
 
-  const DecoratedContainer({required this.child});
+  const DecoratedContainer({required this.child, this.colour});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class DecoratedContainer extends StatelessWidget {
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(5),
         border: Border.all(
-            color: Theme.of(context).colorScheme.primary, width: 0.5),
+            color: colour ?? Theme.of(context).colorScheme.primary, width: 0.5),
       ),
       child: child,
     );
@@ -41,8 +42,10 @@ class DecoratedContainer extends StatelessWidget {
 class DecoratedContainerItem extends StatelessWidget {
   final Widget child;
   final double aspectRatio;
+  final Color? colour;
 
-  const DecoratedContainerItem({required this.child, this.aspectRatio = 4});
+  const DecoratedContainerItem(
+      {required this.child, this.aspectRatio = 4, this.colour});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +54,8 @@ class DecoratedContainerItem extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: aspectRatio,
         child: DecoratedContainer(
-            child: Padding(padding: const EdgeInsets.all(5), child: child)),
+            child: Padding(padding: const EdgeInsets.all(5), child: child),
+            colour: colour),
       ),
     );
   }

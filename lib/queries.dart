@@ -2,17 +2,40 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//const ipOfAPI = "http://10.140.1.199:8000";
-const ipOfAPI = "https://home.baltruschat.de:8000";
+const ipOfAPI = "http://10.140.1.48:8000";
+//const ipOfAPI = "https://home.baltruschat.de:8000";
 
 http.Client getClient() => http.Client();
 
 class QueryLocal {
   static Future<List<String>> getFavourites(saveKey) async {
+    // keys: favourite_transfers, favourite_players, favourite_teams
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favourites = prefs.getStringList(saveKey) ?? [];
     return favourites;
   }
+
+  static Future<void> removeFavourite(saveKey, valueToRemove) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> temp = prefs.getStringList(saveKey) as List<String>;
+    if (temp.contains(valueToRemove.toString())) {
+      await prefs.setStringList(
+          saveKey, temp..remove(valueToRemove.toString()));
+    }
+  }
+
+  static Future<void> addFavourite(saveKey, valueToAdd) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> temp = prefs.getStringList(saveKey) ?? [];
+    if (!temp.contains(valueToAdd.toString())) {
+      await prefs.setStringList(saveKey, temp..add(valueToAdd.toString()));
+    }
+  }
+}
+
+class TransferNotFoundException implements Exception {
+  String cause;
+  TransferNotFoundException(this.cause);
 }
 
 class QueryServer {
@@ -31,7 +54,7 @@ class QueryServer {
               .cast<Map<String, dynamic>>();
       return teamInfo[0];
     } else {
-      throw Exception('Failed to load transfers');
+      throw Exception('Failed to load teams');
     }
   }
 
@@ -54,7 +77,7 @@ class QueryServer {
               .cast<Map<String, dynamic>>();
       return playerInfo[0];
     } else {
-      throw Exception('Failed to load transfers');
+      throw Exception('Failed to load players');
     }
   }
 
@@ -67,6 +90,9 @@ class QueryServer {
       final List<Map<String, dynamic>> transfers =
           (jsonDecode(response.body) as List<dynamic>)
               .cast<Map<String, dynamic>>();
+      if (transfers.isEmpty) {
+        throw TransferNotFoundException('Transfer not found');
+      }
       return transfers[0];
     } else {
       throw Exception('Failed to load transfers');

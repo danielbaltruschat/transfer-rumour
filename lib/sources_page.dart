@@ -322,8 +322,10 @@ class SourcesList extends StatelessWidget {
     final List<SourceWidget> sources = [];
 
     for (Map<String, dynamic> transfer in json) {
-      Source source = Source.fromJson(transfer);
-      sources.add(SourceWidget(source: source));
+      if (transfer["source_type"].toLowerCase() != "official") {
+        Source source = Source.fromJson(transfer);
+        sources.add(SourceWidget(source: source));
+      }
     }
     return sources;
   }

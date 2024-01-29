@@ -12,6 +12,7 @@ class Transfer {
   final String? currentTeamImage;
   final String? rumouredTeamImage;
   final String? playerFlag;
+  final String? stage;
 
   const Transfer(
       {required this.player,
@@ -22,7 +23,8 @@ class Transfer {
       required this.playerImage,
       required this.currentTeamImage,
       required this.rumouredTeamImage,
-      required this.playerFlag});
+      required this.playerFlag,
+      required this.stage});
 
   factory Transfer.fromJson(Map<String, dynamic> json) {
     return Transfer(
@@ -34,13 +36,14 @@ class Transfer {
         playerImage: json['player_image'],
         currentTeamImage: json['current_team_logo'],
         rumouredTeamImage: json['rumoured_team_logo'],
-        playerFlag: json['nation_flag_image']);
+        playerFlag: json['nation_flag_image'],
+        stage: json['stage']);
   }
 }
 
 class PlayerFace extends StatelessWidget {
-  final imageLink;
-  final flagLink;
+  final String? imageLink;
+  final String? flagLink;
 
   const PlayerFace({required this.imageLink, required this.flagLink});
 
@@ -52,7 +55,8 @@ class PlayerFace extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(imageLink),
+              child: Image.network(imageLink ??
+                  "https://img.a.transfermarkt.technology/portrait/header/default.jpg?lm=1"),
             ),
             Positioned(
               bottom: 0,
@@ -64,7 +68,9 @@ class PlayerFace extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onSurface,
                         width: 1),
                     image: DecorationImage(
-                        fit: BoxFit.cover, image: NetworkImage(flagLink))),
+                        fit: BoxFit.cover,
+                        image: NetworkImage(flagLink ??
+                            "https://cdn2.vectorstock.com/i/1000x1000/81/66/question-mark-and-background-vector-28488166.jpg"))),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(
                     minWidth: 20,
@@ -197,18 +203,23 @@ class TransferWidget extends StatelessWidget {
             child: AspectRatio(
                 aspectRatio: 4,
                 child: DecoratedContainerItem(
+                    colour: transfer.stage == "done_official"
+                        ? Colors.lime
+                        : transfer.stage == "deal_off_official"
+                            ? Colors.red
+                            : null,
                     child: Stack(alignment: Alignment.topRight, children: [
-                  // Padding(
-                  //     padding: const EdgeInsets.all(5),
-                  //     child:
-                  TransferWidgetUnboxed(transfer: transfer),
-                  FavouriteButtonSaveLocally(
-                    valueToSave: transfer.transferID.toString(),
-                    saveKey: "favourite_transfers",
-                    onFavouriteAddition: onFavourite,
-                    onUnFavouriteAddition: onUnFavourite,
-                  ),
-                ])))));
+                      // Padding(
+                      //     padding: const EdgeInsets.all(5),
+                      //     child:
+                      TransferWidgetUnboxed(transfer: transfer),
+                      FavouriteButtonSaveLocally(
+                        valueToSave: transfer.transferID.toString(),
+                        saveKey: "favourite_transfers",
+                        onFavouriteAddition: onFavourite,
+                        onUnFavouriteAddition: onUnFavourite,
+                      ),
+                    ])))));
   }
 }
 
@@ -226,7 +237,8 @@ List<Transfer> demoTransfers = [
           "https://tmssl.akamaized.net/images/wappen/head/27.png?lm=1498251238",
       transferID: 1,
       playerFlag:
-          "https://tmssl.akamaized.net/images/flagge/head/189.png?lm=1520611569"),
+          "https://tmssl.akamaized.net/images/flagge/head/189.png?lm=1520611569",
+      stage: null),
   const Transfer(
       currentTeam: "Bayern Munich",
       player: "Robert Lewandowski",
@@ -240,7 +252,8 @@ List<Transfer> demoTransfers = [
       rumouredTeamImage:
           "https://tmssl.akamaized.net/images/wappen/head/131.png?lm=1406739548",
       playerFlag:
-          "https://tmssl.akamaized.net/images/flagge/head/189.png?lm=1520611569")
+          "https://tmssl.akamaized.net/images/flagge/head/189.png?lm=1520611569",
+      stage: null)
 ];
 
 List<Map<String, dynamic>> demoTransfersJson = [
