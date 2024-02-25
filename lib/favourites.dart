@@ -30,7 +30,6 @@ class AllFavourites extends StatelessWidget {
     final Future<List<String>> favouriteTeams =
         QueryLocal.getFavourites("favourite_teams");
 
-    //List<Widget> favouriteWidgets = []; // Priority queue
     PriorityQueue<Widget> favouriteWidgets = PriorityQueue();
     for (String transferID in await favouriteTransfers) {
       try {
@@ -204,10 +203,7 @@ class FavouriteTransfers extends StatelessWidget {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               return FutureBuilder(
-                future:
-                    //QueryServer.getTransferByTransferID(snapshot.data![index]),
-                    getTransferWidget(snapshot.data![index]),
-                //Future.value(demoTransfersJson[0]),
+                future: getTransferWidget(snapshot.data![index]),
                 builder: (context, transferSnapshot) {
                   if (transferSnapshot.hasData) {
                     return transferSnapshot.data!;
@@ -235,7 +231,7 @@ class FavouritesBody extends StatefulWidget {
 
 class _FavouritesBodyState extends State<FavouritesBody> {
   //FavouritesBody({super.key});
-  int? currentIndex = 0;
+  int? _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -251,22 +247,22 @@ class _FavouritesBodyState extends State<FavouritesBody> {
                 2: Padding(padding: EdgeInsets.all(5), child: Text("Players")),
                 3: Padding(padding: EdgeInsets.all(5), child: Text("Teams"))
               },
-              groupValue: currentIndex,
+              groupValue: _currentIndex,
               onValueChanged: (int? index) {
-                if (currentIndex != index) {
+                if (_currentIndex != index) {
                   setState(() {
-                    currentIndex = index;
+                    _currentIndex = index;
                   });
                 }
               })),
       Expanded(
           child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 500),
-              child: currentIndex == 1
+              child: _currentIndex == 1
                   ? const FavouriteTransfers()
-                  : currentIndex == 2
+                  : _currentIndex == 2
                       ? const FavouritePlayers()
-                      : currentIndex == 3
+                      : _currentIndex == 3
                           ? const FavouriteTeams()
                           : const AllFavourites()))
     ]);

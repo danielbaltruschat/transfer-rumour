@@ -72,8 +72,6 @@ class TeamWidget extends StatelessWidget {
         },
         child: DecoratedContainerItem(
           aspectRatio: 6,
-          // elevation: 5,
-          // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           child: Stack(children: [
             Align(
                 alignment: Alignment.topRight,
@@ -83,20 +81,6 @@ class TeamWidget extends StatelessWidget {
                 )),
             Center(
                 child: Row(children: [
-              // Expanded(
-              //     child: Row(children: [
-              //   Expanded(
-              //       child: Image.network(
-              //           team.teamImage ??
-              //               "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255",
-              //           height: 70)),
-              //   Expanded(
-              //       flex: 2,
-              //       child: Center(
-              //           child: Text(team.teamName,
-              //               style: const TextStyle(
-              //                   fontSize: 25, fontWeight: FontWeight.bold)))),
-              // ])),
               TeamWidgetUnboxed(team: team),
               const SizedBox(width: 50)
             ]))

@@ -13,8 +13,8 @@ class TwitterEmbed extends StatefulWidget {
 }
 
 class _TwitterEmbedState extends State<TwitterEmbed> {
-  late bool isLoaded = false;
-  late double height = 300;
+  late bool _isLoaded = false;
+  late double _height = 300;
 
   late WebViewController controller = WebViewController()
     ..loadHtmlString(getHtmlString(widget.tweetID))
@@ -23,8 +23,8 @@ class _TwitterEmbedState extends State<TwitterEmbed> {
     ..addJavaScriptChannel("Twitter", onMessageReceived: (message) {
       if (this.mounted) {
         setState(() {
-          isLoaded = true;
-          height = double.parse(message.message);
+          _isLoaded = true;
+          _height = double.parse(message.message);
         });
       }
     })
@@ -75,12 +75,12 @@ class _TwitterEmbedState extends State<TwitterEmbed> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
+      height: _height,
       child: Stack(children: [
         WebViewWidget(controller: controller),
         AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
-            child: isLoaded
+            child: _isLoaded
                 ? const SizedBox.shrink()
                 : const Center(child: CircularProgressIndicator.adaptive()),
             transitionBuilder: (child, animation) {
@@ -125,23 +125,6 @@ class PopUpSource<T> extends PopupRoute<T> {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    //return Center(child: popUp);
-    // List<String> sourceDataArgs =
-    //     ModalRoute.of(context)!.settings.arguments as List<String>;
-
-    // late final sourceType = sourceDataArgs[0];
-    // late final sourceLink = sourceDataArgs[1];
-
-    // late final Widget popUp;
-    // if (sourceType.toLowerCase() == "twitter") {
-    //   popUp = TwitterEmbed(tweetID: int.parse(sourceLink));
-    // } else {
-    //   popUp = WebViewWidget(
-    //       controller: WebViewController()
-    //         ..loadRequest(Uri.parse(sourceLink))
-    //         ..setJavaScriptMode(JavaScriptMode.unrestricted));
-    // }
-
     return Center(
         child: Padding(
             padding: const EdgeInsets.all(30.0),
@@ -213,106 +196,69 @@ class SourceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          //Navigator.push(context, DismissibleDialog(testArg: "test"));
           Navigator.of(context).push(PopUpSource(
               source: source.sourceType, sourceLink: source.sourceLink));
-          // Navigator.of(context).pushNamed('sources/popup',
-          //     arguments: [source.sourceType, source.sourceLink]);
         },
-        child:
-            // ConstrainedBox(
-            //     constraints: BoxConstraints(maxHeight: 200),
-            //     child:
-            Padding(
-                padding: const EdgeInsets.only(top: 5, left: 3, right: 3),
-                child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surface,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0, 2),
-                              blurRadius: 4)
-                        ]),
-                    child: Row(children: [
-                      Expanded(
-                          flex: 1,
-                          child: Align(
-                              alignment: Alignment.topCenter,
-                              child: Padding(
-                                  padding: EdgeInsets.only(top: 5.0),
-                                  child: image))),
-                      const SizedBox(width: 18),
-                      Expanded(
-                          flex: 4,
-                          child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Column(children: [
-                                Text(sourceAuthorDisplay,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.w500)),
-                                const SizedBox(height: 3),
-                                Text(source.sourceText,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    softWrap: true,
-                                    maxLines: 3,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500))
-                              ]))),
-                      Expanded(
-                          flex: 1,
-                          child: Align(
-                              alignment: Alignment.topCenter,
-                              child: IconButton(
-                                  icon: const Icon(Icons.open_in_new),
-                                  onPressed: _openLinkInBrowser)))
-                    ]))));
+        child: Padding(
+            padding: const EdgeInsets.only(top: 5, left: 3, right: 3),
+            child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 4)
+                    ]),
+                child: Row(children: [
+                  Expanded(
+                      flex: 1,
+                      child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                              padding: EdgeInsets.only(top: 5.0),
+                              child: image))),
+                  const SizedBox(width: 18),
+                  Expanded(
+                      flex: 4,
+                      child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(children: [
+                            Text(sourceAuthorDisplay,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w500)),
+                            const SizedBox(height: 3),
+                            Text(source.sourceText,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                softWrap: true,
+                                maxLines: 3,
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500))
+                          ]))),
+                  Expanded(
+                      flex: 1,
+                      child: Align(
+                          alignment: Alignment.topCenter,
+                          child: IconButton(
+                              icon: const Icon(Icons.open_in_new),
+                              onPressed: _openLinkInBrowser)))
+                ]))));
   }
 }
 
 class SourcesList extends StatelessWidget {
   final Transfer transfer;
   late Future<List<SourceWidget>> futureSources = getSources(transfer);
-  // late Future<List<TwitterEmbed>> futureTweets = Future.value([
-  //   const TwitterEmbed(tweetID: 1685649487539122177),
-  //   const TwitterEmbed(tweetID: 1686114646984445952)
-  // ]);
-  // final Future<List<SourceWidget>> futureSources = Future.value([
-  //   SourceWidget.fromJson({
-  //     "text":
-  //         "This is a test tweetggggajwfoijaopgjwpogjsopagjop[es jgpoeshjgposejophjeposyjaioerjhgiohrdiohiordhgiozhdsrioghriod`ghiordhiozgjdroijhgiodrjhzgiuh`uildghiudhzliughduizghiudhigkh`oirhg;iordzhiohiod`hoig;oi]",
-  //     "source_id": 1,
-  //     "source_type": "twitter",
-  //     "source_link": "1685649487539122177",
-  //     "author": "elonmusk"
-  //   }),
-  //   SourceWidget.fromJson({
-  //     "text": "This is a test tweet",
-  //     "source_id": 2,
-  //     "source_type": "twitter",
-  //     "source_link": "1686114646984445952",
-  //     "author": "elonmusk"
-  //   }),
-  //   SourceWidget.fromJson({
-  //     "text": "This is a test tweet",
-  //     "source_id": 3,
-  //     "source_type": "twitter",
-  //     "source_link": "1685649487539122177",
-  //     "author": "elonmusk"
-  //   }),
-  // ]);
 
   SourcesList({required this.transfer});
 

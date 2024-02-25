@@ -40,12 +40,6 @@ class TransferNotFoundException implements Exception {
 
 class QueryServer {
   static Future<Map<String, dynamic>> getTeamInfoByTeamID(teamID) async {
-    // return Future.value({
-    //   "team_name": "Liverpool FC",
-    //   "team_logo":
-    //       "https://tmssl.akamaized.net/images/wappen/head/31.png?lm=1456567819",
-    //   "team_id": int.parse(teamID)
-    // });
     http.Client client = getClient();
     final response = await client.get(Uri.parse('$ipOfAPI/team_by_id/$teamID'));
     if (response.statusCode == 200) {
@@ -59,15 +53,6 @@ class QueryServer {
   }
 
   static Future<Map<String, dynamic>> getPlayerInfoByPlayerID(playerID) async {
-    // return Future.value({
-    //   "player_name": "Sadio Mane",
-    //   "player_image":
-    //       "https://img.a.transfermarkt.technology/portrait/header/200512-1667830279.jpg?lm=1",
-    //   "player_id": int.parse(playerID),
-    //   "team_name": "Liverpool FC",
-    //   "team_image":
-    //       "https://tmssl.akamaized.net/images/wappen/head/31.png?lm=1456567819"
-    // });
     http.Client client = getClient();
     final response =
         await client.get(Uri.parse('$ipOfAPI/player_by_id/$playerID'));

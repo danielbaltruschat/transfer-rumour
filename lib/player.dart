@@ -52,11 +52,8 @@ class PlayerWidgetUnboxed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        //Expanded(
         Flexible(
-            //flex: 4,
             child: Padding(
                 padding: EdgeInsets.only(right: 10),
                 child: PlayerFace(
@@ -151,8 +148,6 @@ class PlayerWidget extends StatelessWidget {
           Navigator.pushNamed(context, '/player', arguments: player);
         },
         child: DecoratedContainerItem(
-          // elevation: 5,
-          // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           child: Stack(children: [
             Align(
                 alignment: Alignment.topRight,
@@ -162,7 +157,6 @@ class PlayerWidget extends StatelessWidget {
                 )),
             Center(
                 child: Row(
-              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 //Expanded(
                 Expanded(child: PlayerWidgetUnboxed(player: player)),

@@ -14,7 +14,7 @@ class SearchResults extends StatefulWidget {
 }
 
 class _SearchResultsState extends State<SearchResults> {
-  late int? currentIndex = widget.initialIndex;
+  late int? _currentIndex = widget.initialIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,11 @@ class _SearchResultsState extends State<SearchResults> {
                   child: Text("Players")), //only need padding on one side
               1: Text("Teams")
             },
-            groupValue: currentIndex,
+            groupValue: _currentIndex,
             onValueChanged: (index) {
-              if (currentIndex != index) {
+              if (_currentIndex != index) {
                 setState(() {
-                  currentIndex = index;
+                  _currentIndex = index;
                 });
               }
             },
@@ -46,7 +46,7 @@ class _SearchResultsState extends State<SearchResults> {
       Expanded(
           child: AnimatedSwitcher(
               duration: Duration(milliseconds: 300),
-              child: currentIndex == 0
+              child: _currentIndex == 0
                   ? FutureBuilder(
                       future: futurePlayers,
                       builder: (context, snapshot) {
@@ -86,12 +86,12 @@ class _SearchResultsState extends State<SearchResults> {
 }
 
 class TransferSearch extends SearchDelegate {
-  final isPlayer = true;
+  final _isPlayer = true;
 
-  late int currentIndex = 0;
+  late int _currentIndex = 0;
 
   void changeIndex(int index) {
-    currentIndex = index;
+    _currentIndex = index;
   }
 
   @override
@@ -117,12 +117,12 @@ class TransferSearch extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     //final futurePlayers = fetchPlayers(query);
-    return SearchResults(query: query, initialIndex: currentIndex);
+    return SearchResults(query: query, initialIndex: _currentIndex);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     //final futurePlayers = fetchPlayers(query);
-    return SearchResults(query: query, initialIndex: currentIndex);
+    return SearchResults(query: query, initialIndex: _currentIndex);
   }
 }

@@ -75,39 +75,12 @@ class PlayerFace extends StatelessWidget {
                   constraints: const BoxConstraints(
                     minWidth: 20,
                     minHeight: 20,
-                    // maxWidth: 30,
-                    // maxHeight: 30,
                   ),
                 ),
               ),
             )
           ],
         ));
-    // return Stack(
-    //   children: [
-    //     Container(
-    //       decoration: BoxDecoration(
-    //           borderRadius: BorderRadius.circular(20),
-    //           image: DecorationImage(
-    //               fit: BoxFit.scaleDown, image: NetworkImage(imageLink))),
-    //     ),
-    //     Positioned(
-    //       bottom: 0,
-    //       right: 0,
-    //       child: Container(
-    //         decoration: BoxDecoration(
-    //             shape: BoxShape.circle,
-    //             border: Border.all(color: Colors.white, width: 2),
-    //             image: DecorationImage(
-    //                 fit: BoxFit.cover, image: NetworkImage(flagLink))),
-    //         child: const SizedBox(
-    //           height: 30,
-    //           width: 30,
-    //         ),
-    //       ),
-    //     )
-    //   ],
-    // );
   }
 }
 
@@ -209,9 +182,6 @@ class TransferWidget extends StatelessWidget {
                             ? Colors.red
                             : null,
                     child: Stack(alignment: Alignment.topRight, children: [
-                      // Padding(
-                      //     padding: const EdgeInsets.all(5),
-                      //     child:
                       TransferWidgetUnboxed(transfer: transfer),
                       FavouriteButtonSaveLocally(
                         valueToSave: transfer.transferID.toString(),
