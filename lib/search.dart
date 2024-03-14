@@ -5,23 +5,25 @@ import 'player.dart';
 import 'queries.dart';
 
 class SearchResults extends StatefulWidget {
-  final String query;
-  final int initialIndex;
-  const SearchResults({required this.query, required this.initialIndex});
+  final String _query;
+  final int _initialIndex;
+  const SearchResults({required String query, required int initialIndex})
+      : _initialIndex = initialIndex,
+        _query = query;
 
   @override
   State<SearchResults> createState() => _SearchResultsState();
 }
 
 class _SearchResultsState extends State<SearchResults> {
-  late int? _currentIndex = widget.initialIndex;
+  late int? _currentIndex = widget._initialIndex;
 
   @override
   Widget build(BuildContext context) {
     final futurePlayers = PlayerWidget.playerWidgetFromJsonList(
-        QueryServer.searchPlayers(widget.query));
+        QueryServer.searchPlayers(widget._query));
     final futureTeams = TeamWidget.teamWidgetFromJsonList(
-        QueryServer.searchTeams(widget.query));
+        QueryServer.searchTeams(widget._query));
 
     return Column(children: [
       Container(
@@ -50,11 +52,7 @@ class _SearchResultsState extends State<SearchResults> {
                   ? FutureBuilder(
                       future: futurePlayers,
                       builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return const Center(
-                            child: Text("Error"),
-                          );
-                        } else if (snapshot.hasData) {
+                        if (snapshot.hasData) {
                           return ListView(
                             children: snapshot.data!,
                           );
@@ -67,11 +65,7 @@ class _SearchResultsState extends State<SearchResults> {
                   : FutureBuilder(
                       future: futureTeams,
                       builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return const Center(
-                            child: Text("Error"),
-                          );
-                        } else if (snapshot.hasData) {
+                        if (snapshot.hasData) {
                           return ListView(
                             children: snapshot.data!,
                           );

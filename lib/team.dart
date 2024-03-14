@@ -20,19 +20,19 @@ class Team {
 }
 
 class TeamWidgetUnboxed extends StatelessWidget {
-  final Team team;
+  final Team _team;
 
-  const TeamWidgetUnboxed({required this.team});
+  const TeamWidgetUnboxed({required Team team}) : _team = team;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Image.network(team.teamImage ??
+      Image.network(_team.teamImage ??
           "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255"),
       const SizedBox(width: 20),
       FittedBox(
-          child: Text(team.teamName,
+          child: Text(_team.teamName,
               style:
                   const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)))
     ]));
@@ -40,9 +40,9 @@ class TeamWidgetUnboxed extends StatelessWidget {
 }
 
 class TeamWidget extends StatelessWidget {
-  final Team team;
+  final Team _team;
 
-  const TeamWidget({required this.team});
+  const TeamWidget({required Team team}) : _team = team;
 
   factory TeamWidget.fromData({
     required String teamName,
@@ -68,7 +68,7 @@ class TeamWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/team', arguments: team);
+          Navigator.pushNamed(context, '/team', arguments: _team);
         },
         child: DecoratedContainerItem(
           aspectRatio: 6,
@@ -76,12 +76,12 @@ class TeamWidget extends StatelessWidget {
             Align(
                 alignment: Alignment.topRight,
                 child: FavouriteButtonSaveLocally(
-                  valueToSave: team.teamID.toString(),
+                  valueToSave: _team.teamID.toString(),
                   saveKey: "favourite_teams",
                 )),
             Center(
                 child: Row(children: [
-              TeamWidgetUnboxed(team: team),
+              TeamWidgetUnboxed(team: _team),
               const SizedBox(width: 50)
             ]))
           ]),

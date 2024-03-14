@@ -5,8 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'queries.dart';
 
 class TwitterEmbed extends StatefulWidget {
-  final int tweetID;
-  const TwitterEmbed({required this.tweetID});
+  final int _tweetID;
+  const TwitterEmbed({required int tweetID}) : _tweetID = tweetID;
 
   @override
   State<TwitterEmbed> createState() => _TwitterEmbedState();
@@ -17,7 +17,7 @@ class _TwitterEmbedState extends State<TwitterEmbed> {
   late double _height = 300;
 
   late WebViewController controller = WebViewController()
-    ..loadHtmlString(getHtmlString(widget.tweetID))
+    ..loadHtmlString(getHtmlString(widget._tweetID))
     //..loadHtmlString(getHtmlString2())
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
     ..addJavaScriptChannel("Twitter", onMessageReceived: (message) {
@@ -95,17 +95,19 @@ class _TwitterEmbedState extends State<TwitterEmbed> {
 }
 
 class PopUpSource<T> extends PopupRoute<T> {
-  final String source;
-  final String sourceLink;
-  late final Widget popUp;
+  final String _source;
+  final String _sourceLink;
+  late final Widget _popUp;
 
-  PopUpSource({required this.source, required this.sourceLink}) {
-    if (source.toLowerCase() == "twitter") {
-      popUp = TwitterEmbed(tweetID: int.parse(sourceLink));
+  PopUpSource({required String source, required String sourceLink})
+      : _sourceLink = sourceLink,
+        _source = source {
+    if (_source.toLowerCase() == "twitter") {
+      _popUp = TwitterEmbed(tweetID: int.parse(_sourceLink));
     } else {
-      popUp = WebViewWidget(
+      _popUp = WebViewWidget(
           controller: WebViewController()
-            ..loadRequest(Uri.parse(sourceLink))
+            ..loadRequest(Uri.parse(_sourceLink))
             ..setJavaScriptMode(JavaScriptMode.unrestricted));
     }
   }
@@ -134,7 +136,7 @@ class PopUpSource<T> extends PopupRoute<T> {
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
                 ),
-                child: popUp)));
+                child: _popUp)));
   }
 }
 
@@ -163,21 +165,22 @@ class Source {
 }
 
 class SourceWidget extends StatelessWidget {
-  final Source source;
-  late final Widget image;
-  late final String sourceURL;
-  late final String sourceAuthorDisplay;
+  final Source _source;
+  late final Widget _image;
+  late final String _sourceURL;
+  late final String _sourceAuthorDisplay;
 
-  SourceWidget({required this.source}) {
-    if (source.sourceType.toLowerCase() == "twitter") {
-      image = Image.asset("assets/X_white.png");
-      sourceURL =
-          "https://twitter.com/${source.sourceAuthor}/status/${source.sourceLink}";
-      sourceAuthorDisplay = "@${source.sourceAuthor}";
+  // constructor
+  SourceWidget({required Source source}) : _source = source {
+    if (_source.sourceType.toLowerCase() == "twitter") {
+      _image = Image.asset("assets/X_white.png");
+      _sourceURL =
+          "https://twitter.com/${_source.sourceAuthor}/status/${_source.sourceLink}";
+      _sourceAuthorDisplay = "@${_source.sourceAuthor}";
     } else {
-      image = const Icon(Icons.newspaper, color: Colors.black);
-      sourceURL = source.sourceLink;
-      sourceAuthorDisplay = source.sourceAuthor;
+      _image = const Icon(Icons.newspaper, color: Colors.black);
+      _sourceURL = _source.sourceLink;
+      _sourceAuthorDisplay = _source.sourceAuthor;
     }
   }
 
@@ -186,7 +189,7 @@ class SourceWidget extends StatelessWidget {
   }
 
   _openLinkInBrowser() async {
-    final Uri url = Uri.parse(sourceURL);
+    final Uri url = Uri.parse(_sourceURL);
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
@@ -197,7 +200,7 @@ class SourceWidget extends StatelessWidget {
     return GestureDetector(
         onTap: () {
           Navigator.of(context).push(PopUpSource(
-              source: source.sourceType, sourceLink: source.sourceLink));
+              source: _source.sourceType, sourceLink: _source.sourceLink));
         },
         child: Padding(
             padding: const EdgeInsets.only(top: 5, left: 3, right: 3),
@@ -219,14 +222,14 @@ class SourceWidget extends StatelessWidget {
                           alignment: Alignment.topCenter,
                           child: Padding(
                               padding: EdgeInsets.only(top: 5.0),
-                              child: image))),
+                              child: _image))),
                   const SizedBox(width: 18),
                   Expanded(
                       flex: 4,
                       child: Align(
                           alignment: Alignment.centerLeft,
                           child: Column(children: [
-                            Text(sourceAuthorDisplay,
+                            Text(_sourceAuthorDisplay,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color:
@@ -234,7 +237,7 @@ class SourceWidget extends StatelessWidget {
                                     fontSize: 25,
                                     fontWeight: FontWeight.w500)),
                             const SizedBox(height: 3),
-                            Text(source.sourceText,
+                            Text(_source.sourceText,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,
                                 softWrap: true,
@@ -257,10 +260,10 @@ class SourceWidget extends StatelessWidget {
 }
 
 class SourcesList extends StatelessWidget {
-  final Transfer transfer;
-  late Future<List<SourceWidget>> futureSources = getSources(transfer);
+  final Transfer _transfer;
+  late final Future<List<SourceWidget>> _futureSources = getSources(_transfer);
 
-  SourcesList({required this.transfer});
+  SourcesList({required Transfer transfer}) : _transfer = transfer;
 
   static Future<List<SourceWidget>> getSources(Transfer transfer) async {
     List<Map<String, dynamic>> json =
@@ -279,7 +282,7 @@ class SourcesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<SourceWidget>>(
-        future: futureSources,
+        future: _futureSources,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -288,8 +291,6 @@ class SourcesList extends StatelessWidget {
                   //JavaScript get element height?
                   return snapshot.data![index];
                 });
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
           }
           return const CircularProgressIndicator.adaptive();
         });

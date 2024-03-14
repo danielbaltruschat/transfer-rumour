@@ -45,9 +45,9 @@ class Player {
 }
 
 class PlayerWidgetUnboxed extends StatelessWidget {
-  final Player player;
+  final Player _player;
 
-  const PlayerWidgetUnboxed({required this.player});
+  const PlayerWidgetUnboxed({required Player player}) : _player = player;
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +57,8 @@ class PlayerWidgetUnboxed extends StatelessWidget {
             child: Padding(
                 padding: EdgeInsets.only(right: 10),
                 child: PlayerFace(
-                  imageLink: player.playerImage,
-                  flagLink: player.nationFlag,
+                  imageLink: _player.playerImage,
+                  flagLink: _player.nationFlag,
                 ))),
         Flexible(
             fit: FlexFit.tight,
@@ -70,26 +70,26 @@ class PlayerWidgetUnboxed extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconLabel(
-                            label: player.playerName,
+                            label: _player.playerName,
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                             icon: Icons.person),
                         IconLabel(
-                            label: "${player.age} years", icon: Icons.cake)
+                            label: "${_player.age} years", icon: Icons.cake)
                       ]),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconLabel(
-                            label: player.playerPosition,
+                            label: _player.playerPosition,
                             icon: AppIcons.pitchIcon),
-                        IconLabel(label: player.marketValue, icon: Icons.paid)
+                        IconLabel(label: _player.marketValue, icon: Icons.paid)
                       ]),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconLabel(label: player.teamName, icon: Icons.group),
-                        IconLabel(label: player.nationName, icon: Icons.flag)
+                        IconLabel(label: _player.teamName, icon: Icons.group),
+                        IconLabel(label: _player.nationName, icon: Icons.flag)
                       ])
                 ])),
       ],
@@ -98,9 +98,9 @@ class PlayerWidgetUnboxed extends StatelessWidget {
 }
 
 class PlayerWidget extends StatelessWidget {
-  final Player player;
+  final Player _player;
 
-  const PlayerWidget({required this.player});
+  const PlayerWidget({required Player player}) : _player = player;
 
   factory PlayerWidget.fromData({
     required String playerName,
@@ -145,21 +145,21 @@ class PlayerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/player', arguments: player);
+          Navigator.pushNamed(context, '/player', arguments: _player);
         },
         child: DecoratedContainerItem(
           child: Stack(children: [
             Align(
                 alignment: Alignment.topRight,
                 child: FavouriteButtonSaveLocally(
-                  valueToSave: player.playerID.toString(),
+                  valueToSave: _player.playerID.toString(),
                   saveKey: "favourite_players",
                 )),
             Center(
                 child: Row(
               children: [
                 //Expanded(
-                Expanded(child: PlayerWidgetUnboxed(player: player)),
+                Expanded(child: PlayerWidgetUnboxed(player: _player)),
                 const SizedBox(width: 40)
               ],
             ))

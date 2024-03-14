@@ -2,8 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const ipOfAPI = "http://10.140.1.48:8000";
-//const ipOfAPI = "https://home.baltruschat.de:8000";
+//const ipOfAPI = "http://10.140.1.48:8000";
+const ipOfAPI = "https://home.baltruschat.de:8000";
 
 http.Client getClient() => http.Client();
 

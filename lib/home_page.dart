@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late bool isHome = true;
+  late bool _isHome = true;
   late Future<List<TransferWidget>> futureTransferWidgets =
       getTransferWidgets();
 
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
-        child: isHome
+        child: _isHome
             ? RefreshIndicator(
                 onRefresh: () {
                   setState(() {
@@ -63,8 +63,6 @@ class _HomePageState extends State<HomePage> {
                           return snapshot.data![index];
                         },
                       );
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
                     } else {
                       return const Center(
                           child: CircularProgressIndicator.adaptive());
@@ -113,9 +111,9 @@ class _HomePageState extends State<HomePage> {
                 onTabChange: (index) {
                   setState(() {
                     if (index == 0) {
-                      isHome = true;
+                      _isHome = true;
                     } else {
-                      isHome = false;
+                      _isHome = false;
                     }
                   });
                 },

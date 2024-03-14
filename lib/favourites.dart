@@ -75,8 +75,6 @@ class AllFavourites extends StatelessWidget {
                 return snapshot.data![index];
               },
             );
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
           }
           return const Center(child: CircularProgressIndicator());
         });
@@ -113,16 +111,12 @@ class FavouriteTeams extends StatelessWidget {
                       teamImage: teamSnapshot.data!['logo_image'],
                       teamID: teamSnapshot.data!['team_id'],
                     );
-                  } else if (teamSnapshot.hasError) {
-                    return Text("${teamSnapshot.error}");
                   }
                   return CircularProgressIndicator();
                 },
               );
             },
           );
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
         }
         return CircularProgressIndicator();
       },
@@ -166,16 +160,12 @@ class FavouritePlayers extends StatelessWidget {
                       playerPosition: playerSnapshot.data!['player_position'],
                       age: playerSnapshot.data!['age'],
                     );
-                  } else if (playerSnapshot.hasError) {
-                    return Text("${playerSnapshot.error}");
                   }
                   return CircularProgressIndicator();
                 },
               );
             },
           );
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
         }
         return CircularProgressIndicator();
       },
@@ -207,16 +197,12 @@ class FavouriteTransfers extends StatelessWidget {
                 builder: (context, transferSnapshot) {
                   if (transferSnapshot.hasData) {
                     return transferSnapshot.data!;
-                  } else if (transferSnapshot.hasError) {
-                    return Text("${transferSnapshot.error}");
                   }
                   return CircularProgressIndicator();
                 },
               );
             },
           );
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
         }
         return CircularProgressIndicator();
       },

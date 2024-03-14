@@ -1,29 +1,35 @@
 import 'package:flutter/material.dart';
 
 class IconLabel extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final TextStyle? style;
+  final IconData _icon;
+  final String _label;
+  final TextStyle? _style;
 
-  const IconLabel({required this.icon, required this.label, this.style});
+  const IconLabel(
+      {required IconData icon, required String label, TextStyle? style})
+      : _style = style,
+        _label = label,
+        _icon = icon;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon),
+        Icon(_icon),
         const SizedBox(width: 5),
-        Text(label, style: style ?? const TextStyle()),
+        Text(_label, style: _style ?? const TextStyle()),
       ],
     );
   }
 }
 
 class DecoratedContainer extends StatelessWidget {
-  final Widget child;
-  final Color? colour;
+  final Widget _child;
+  final Color? _colour;
 
-  const DecoratedContainer({required this.child, this.colour});
+  const DecoratedContainer({required Widget child, Color? colour})
+      : _colour = colour,
+        _child = child;
 
   @override
   Widget build(BuildContext context) {
@@ -32,30 +38,34 @@ class DecoratedContainer extends StatelessWidget {
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(5),
         border: Border.all(
-            color: colour ?? Theme.of(context).colorScheme.primary, width: 0.5),
+            color: _colour ?? Theme.of(context).colorScheme.primary,
+            width: 0.5),
       ),
-      child: child,
+      child: _child,
     );
   }
 }
 
 class DecoratedContainerItem extends StatelessWidget {
-  final Widget child;
-  final double aspectRatio;
-  final Color? colour;
+  final Widget _child;
+  final double _aspectRatio;
+  final Color? _colour;
 
   const DecoratedContainerItem(
-      {required this.child, this.aspectRatio = 4, this.colour});
+      {required Widget child, double aspectRatio = 4, Color? colour})
+      : _colour = colour,
+        _aspectRatio = aspectRatio,
+        _child = child;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 6, left: 5, right: 5),
       child: AspectRatio(
-        aspectRatio: aspectRatio,
+        aspectRatio: _aspectRatio,
         child: DecoratedContainer(
-            child: Padding(padding: const EdgeInsets.all(5), child: child),
-            colour: colour),
+            child: Padding(padding: const EdgeInsets.all(5), child: _child),
+            colour: _colour),
       ),
     );
   }

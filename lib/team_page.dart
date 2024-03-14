@@ -34,8 +34,6 @@ class TeamPage extends StatelessWidget {
                 return snapshot.data![index];
               },
             );
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
           } else {
             return Center(child: const CircularProgressIndicator());
           }

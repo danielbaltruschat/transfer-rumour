@@ -3,50 +3,54 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'queries.dart';
 
 class FavouriteButtonSaveLocally extends StatelessWidget {
-  final String valueToSave;
-  final String saveKey;
-  final VoidCallback? onFavouriteAddition;
-  final VoidCallback? onUnFavouriteAddition;
+  final String _valueToSave;
+  final String _saveKey;
+  final VoidCallback? _onFavouriteAddition;
+  final VoidCallback? _onUnFavouriteAddition;
 
   const FavouriteButtonSaveLocally(
-      {required this.valueToSave,
-      required this.saveKey,
-      this.onFavouriteAddition,
-      this.onUnFavouriteAddition});
+      {required String valueToSave,
+      required String saveKey,
+      void Function()? onFavouriteAddition,
+      void Function()? onUnFavouriteAddition})
+      : _onUnFavouriteAddition = onUnFavouriteAddition,
+        _onFavouriteAddition = onFavouriteAddition,
+        _saveKey = saveKey,
+        _valueToSave = valueToSave;
 
-  void onFavourite() async {
-    await QueryLocal.addFavourite(saveKey, valueToSave);
-    if (onFavouriteAddition != null) {
-      onFavouriteAddition!();
+  void _onFavourite() async {
+    await QueryLocal.addFavourite(_saveKey, _valueToSave);
+    if (_onFavouriteAddition != null) {
+      _onFavouriteAddition!();
     }
   }
 
-  void onUnFavourite() async {
-    await QueryLocal.removeFavourite(saveKey, valueToSave);
-    if (onUnFavouriteAddition != null) {
-      onUnFavouriteAddition!();
+  void _onUnFavourite() async {
+    await QueryLocal.removeFavourite(_saveKey, _valueToSave);
+    if (_onUnFavouriteAddition != null) {
+      _onUnFavouriteAddition!();
     }
   }
 
-  Future<bool> getBoolFavourite() async {
+  Future<bool> _getBoolFavourite() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favourites = prefs.getStringList(saveKey) ?? [];
-    if (saveKey == "favourite_players") {
+    List<String> favourites = prefs.getStringList(_saveKey) ?? [];
+    if (_saveKey == "favourite_players") {
       print("favourite_players");
     }
-    return favourites.contains(valueToSave);
+    return favourites.contains(_valueToSave);
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getBoolFavourite(),
+      future: _getBoolFavourite(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return FavouriteButton(
               initialIsFavourite: snapshot.data!,
-              onFavourite: onFavourite,
-              onUnFavourite: onUnFavourite);
+              onFavourite: _onFavourite,
+              onUnFavourite: _onUnFavourite);
         } else {
           return const SizedBox(height: 10, width: 10);
         }
@@ -56,22 +60,24 @@ class FavouriteButtonSaveLocally extends StatelessWidget {
 }
 
 class FavouriteButton extends StatefulWidget {
-  final bool initialIsFavourite;
-  final VoidCallback onFavourite;
-  final VoidCallback onUnFavourite;
+  final bool _initialIsFavourite;
+  final VoidCallback _onFavourite;
+  final VoidCallback _onUnFavourite;
 
   const FavouriteButton({
-    required this.initialIsFavourite,
-    required this.onFavourite,
-    required this.onUnFavourite,
-  });
+    required bool initialIsFavourite,
+    required void Function() onFavourite,
+    required void Function() onUnFavourite,
+  })  : _onUnFavourite = onUnFavourite,
+        _onFavourite = onFavourite,
+        _initialIsFavourite = initialIsFavourite;
 
   @override
   _FavouriteButtonState createState() => _FavouriteButtonState();
 }
 
 class _FavouriteButtonState extends State<FavouriteButton> {
-  late bool isFavourite = widget.initialIsFavourite;
+  late bool isFavourite = widget._initialIsFavourite;
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +90,9 @@ class _FavouriteButtonState extends State<FavouriteButton> {
       ),
       onPressed: () {
         if (isFavourite) {
-          widget.onUnFavourite();
+          widget._onUnFavourite();
         } else {
-          widget.onFavourite();
+          widget._onFavourite();
         }
         setState(() {
           isFavourite = !isFavourite;

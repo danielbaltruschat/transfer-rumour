@@ -42,10 +42,12 @@ class Transfer {
 }
 
 class PlayerFace extends StatelessWidget {
-  final String? imageLink;
-  final String? flagLink;
+  final String? _imageLink;
+  final String? _flagLink;
 
-  const PlayerFace({required this.imageLink, required this.flagLink});
+  const PlayerFace({required String? imageLink, required String? flagLink})
+      : _flagLink = flagLink,
+        _imageLink = imageLink;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,7 @@ class PlayerFace extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(imageLink ??
+              child: Image.network(_imageLink ??
                   "https://img.a.transfermarkt.technology/portrait/header/default.jpg?lm=1"),
             ),
             Positioned(
@@ -69,7 +71,7 @@ class PlayerFace extends StatelessWidget {
                         width: 1),
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(flagLink ??
+                        image: NetworkImage(_flagLink ??
                             "https://cdn2.vectorstock.com/i/1000x1000/81/66/question-mark-and-background-vector-28488166.jpg"))),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(
@@ -85,16 +87,20 @@ class PlayerFace extends StatelessWidget {
 }
 
 class TransferWidgetUnboxed extends StatelessWidget {
-  final Transfer transfer;
-  final VoidCallback? onPlayerTap;
-  final VoidCallback? onCurrentTeamTap;
-  final VoidCallback? onRumouredTeamTap;
+  final Transfer _transfer;
+  final VoidCallback? _onPlayerTap;
+  final VoidCallback? _onCurrentTeamTap;
+  final VoidCallback? _onRumouredTeamTap;
 
   const TransferWidgetUnboxed(
-      {required this.transfer,
-      this.onPlayerTap,
-      this.onCurrentTeamTap,
-      this.onRumouredTeamTap});
+      {required Transfer transfer,
+      void Function()? onPlayerTap,
+      void Function()? onCurrentTeamTap,
+      void Function()? onRumouredTeamTap})
+      : _onRumouredTeamTap = onRumouredTeamTap,
+        _onCurrentTeamTap = onCurrentTeamTap,
+        _onPlayerTap = onPlayerTap,
+        _transfer = transfer;
 
   @override
   Widget build(BuildContext context) {
@@ -105,13 +111,13 @@ class TransferWidgetUnboxed extends StatelessWidget {
             Expanded(
                 flex: 3,
                 child: GestureDetector(
-                    onTap: onPlayerTap,
+                    onTap: _onPlayerTap,
                     child: PlayerFace(
-                        imageLink: transfer.playerImage ??
+                        imageLink: _transfer.playerImage ??
                             "https://img.a.transfermarkt.technology/portrait/header/default.jpg?lm=1",
-                        flagLink: transfer.playerFlag ??
+                        flagLink: _transfer.playerFlag ??
                             "https://tmssl.akamaized.net/images/flagge/head/189.png?lm=1520611569"))),
-            Expanded(child: FittedBox(child: Text(transfer.player))),
+            Expanded(child: FittedBox(child: Text(_transfer.player))),
           ])),
       SizedBox(width: 5),
       Expanded(
@@ -120,10 +126,10 @@ class TransferWidgetUnboxed extends StatelessWidget {
             Expanded(
                 flex: 3,
                 child: GestureDetector(
-                    onTap: onCurrentTeamTap,
-                    child: Image.network(transfer.currentTeamImage ??
+                    onTap: _onCurrentTeamTap,
+                    child: Image.network(_transfer.currentTeamImage ??
                         "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255"))),
-            Expanded(child: FittedBox(child: Text(transfer.currentTeam))),
+            Expanded(child: FittedBox(child: Text(_transfer.currentTeam))),
           ])),
       Expanded(flex: 1, child: const Icon(Icons.arrow_forward)),
       Expanded(
@@ -132,10 +138,10 @@ class TransferWidgetUnboxed extends StatelessWidget {
             Expanded(
                 flex: 3,
                 child: GestureDetector(
-                    onTap: onRumouredTeamTap,
-                    child: Image.network(transfer.rumouredTeamImage ??
+                    onTap: _onRumouredTeamTap,
+                    child: Image.network(_transfer.rumouredTeamImage ??
                         "https://tmssl.akamaized.net/images/wappen/homepageWappen150x150/515.png?lm=1456997255"))),
-            Expanded(child: FittedBox(child: Text(transfer.rumouredTeam))),
+            Expanded(child: FittedBox(child: Text(_transfer.rumouredTeam))),
           ])),
       SizedBox(width: 30)
     ]);
@@ -143,12 +149,17 @@ class TransferWidgetUnboxed extends StatelessWidget {
 }
 
 class TransferWidget extends StatelessWidget {
-  final Transfer transfer;
-  final VoidCallback? onFavourite;
-  final VoidCallback? onUnFavourite;
+  final Transfer _transfer;
+  final VoidCallback? _onFavourite;
+  final VoidCallback? _onUnFavourite;
 
   const TransferWidget(
-      {required this.transfer, this.onFavourite, this.onUnFavourite});
+      {required Transfer transfer,
+      void Function()? onFavourite,
+      void Function()? onUnFavourite})
+      : _onUnFavourite = onUnFavourite,
+        _onFavourite = onFavourite,
+        _transfer = transfer;
 
   static Future<List<Transfer>> transfersFromJsonList(
       Future<List<Map<String, dynamic>>> json) async {
@@ -169,25 +180,42 @@ class TransferWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/sources', arguments: transfer);
+          Navigator.pushNamed(context, '/sources', arguments: _transfer);
+        },
+        onLongPress: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Transfer ID: ${_transfer.transferID}'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Close'),
+                    ),
+                  ],
+                );
+              });
         },
         child: Padding(
             padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
             child: AspectRatio(
                 aspectRatio: 4,
                 child: DecoratedContainerItem(
-                    colour: transfer.stage == "done_official"
+                    colour: _transfer.stage == "done_official"
                         ? Colors.lime
-                        : transfer.stage == "deal_off_official"
+                        : _transfer.stage == "deal_off_official"
                             ? Colors.red
                             : null,
                     child: Stack(alignment: Alignment.topRight, children: [
-                      TransferWidgetUnboxed(transfer: transfer),
+                      TransferWidgetUnboxed(transfer: _transfer),
                       FavouriteButtonSaveLocally(
-                        valueToSave: transfer.transferID.toString(),
+                        valueToSave: _transfer.transferID.toString(),
                         saveKey: "favourite_transfers",
-                        onFavouriteAddition: onFavourite,
-                        onUnFavouriteAddition: onUnFavourite,
+                        onFavouriteAddition: _onFavourite,
+                        onUnFavouriteAddition: _onUnFavourite,
                       ),
                     ])))));
   }
