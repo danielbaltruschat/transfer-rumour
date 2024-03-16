@@ -16,10 +16,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late bool _isHome = true;
-  late Future<List<TransferWidget>> futureTransferWidgets =
-      getTransferWidgets();
+  late Future<List<TransferWidget>> _futureTransferWidgets =
+      _getTransferWidgets();
 
-  Future<List<TransferWidget>> getTransferWidgets() async {
+  Future<List<TransferWidget>> _getTransferWidgets() async {
     Future<List<Map<String, dynamic>>> transferList =
         QueryServer.getAllTransfers();
     return TransferWidget.transferWidgetsFromJsonList(transferList);
@@ -49,12 +49,12 @@ class _HomePageState extends State<HomePage> {
             ? RefreshIndicator(
                 onRefresh: () {
                   setState(() {
-                    futureTransferWidgets = getTransferWidgets();
+                    _futureTransferWidgets = _getTransferWidgets();
                   });
-                  return futureTransferWidgets;
+                  return _futureTransferWidgets;
                 },
                 child: FutureBuilder<List<TransferWidget>>(
-                  future: futureTransferWidgets,
+                  future: _futureTransferWidgets,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
